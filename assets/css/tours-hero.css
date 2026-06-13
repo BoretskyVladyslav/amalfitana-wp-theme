@@ -1,0 +1,97 @@
+/**
+ * Tours page hero — Figma node 142:1101
+ * Desktop frame: 1920×482px
+ */
+
+.tours-hero {
+	position: relative;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	min-height: 482px;
+	margin-top: 0 !important;
+	margin-block-start: 0 !important;
+	background-color: #1a1a1a;
+	background-image: var(--tours-hero-background-image);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+
+.tours-hero::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background: rgba(0, 0, 0, 0.3);
+	pointer-events: none;
+}
+
+.tours-hero__inner {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	width: 100%;
+	max-width: var(--wp--custom--layout--wide-size, 1920px);
+	margin: 0 auto;
+	padding: 200px 105px 163px;
+}
+
+.tours-hero__content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	max-width: 1074px;
+	text-align: center;
+}
+
+.tours-hero__subtitle {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--imperial-script), "Imperial Script", cursive;
+	font-size: 60px;
+	font-weight: 400;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #ffc81e;
+	text-transform: lowercase;
+}
+
+.tours-hero__title {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 60px;
+	font-weight: 600;
+	font-style: normal;
+	line-height: 1.2;
+	letter-spacing: normal;
+	color: #ffffff;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+	.tours-hero {
+		min-height: auto;
+	}
+
+	.tours-hero__inner {
+		padding: 120px 20px 60px;
+	}
+
+	.tours-hero__subtitle {
+		font-size: 48px;
+		line-height: normal;
+	}
+
+	.tours-hero__title {
+		font-size: 30px;
+		line-height: 1.2;
+		white-space: normal;
+	}
+}

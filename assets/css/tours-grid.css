@@ -1,0 +1,98 @@
+/**
+ * Tours page grid section — Figma node 14:509
+ */
+
+.tours-grid-section {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: var(--wp--custom--layout--content-size, 1170px);
+	margin: 0 auto;
+	padding: 40px 15px 100px;
+}
+
+.tours-grid-section__breadcrumbs {
+	display: flex;
+	justify-content: flex-start;
+	margin: 0 0 40px;
+}
+
+.tours-grid-section__breadcrumbs-list {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.tours-grid-section__breadcrumbs-item {
+	display: inline-flex;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.3;
+}
+
+.tours-grid-section__breadcrumbs-link {
+	color: var(--wp--preset--color--muted);
+	text-decoration: none;
+	transition: color 0.2s ease;
+}
+
+.tours-grid-section__breadcrumbs-link:hover,
+.tours-grid-section__breadcrumbs-link:focus-visible {
+	color: var(--wp--preset--color--foreground);
+}
+
+.tours-grid-section__breadcrumbs-current {
+	color: #c3c3c3;
+}
+
+.tours-grid-section__breadcrumbs-separator {
+	display: inline-flex;
+	align-items: center;
+	flex-shrink: 0;
+	line-height: 0;
+}
+
+.tours-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	column-gap: 30px;
+	row-gap: 30px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.tours-grid__item {
+	display: flex;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	overflow: visible;
+}
+
+.tours-grid__item > .tour-card {
+	flex: 1;
+	width: 100%;
+}
+
+@media (max-width: 768px) {
+	.tours-grid-section {
+		padding: 30px 20px 60px;
+	}
+
+	.tours-grid-section__breadcrumbs {
+		margin-bottom: 30px;
+	}
+
+	.tours-grid {
+		grid-template-columns: 1fr;
+		column-gap: 30px;
+		row-gap: 40px;
+	}
+}

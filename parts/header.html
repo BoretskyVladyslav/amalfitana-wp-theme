@@ -64,13 +64,6 @@
 		color: var(--wp--preset--color--foreground);
 	}
 
-	.site-header__icon {
-		display: block;
-		flex-shrink: 0;
-		width: 24px;
-		height: 24px;
-	}
-
 	.site-header__burger {
 		display: none;
 		flex-direction: column;
@@ -190,13 +183,8 @@
 			<li class="site-header__item">
 				<a class="site-header__link" href="#about">Про мене</a>
 			</li>
-			<li class="site-header__item site-header__item--has-dropdown">
-				<a class="site-header__link site-header__link--dropdown" href="#tours">
-					<span class="site-header__link-text">екскурсії</span>
-					<svg class="site-header__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-						<path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" fill="var(--wp--preset--color--foreground)"/>
-					</svg>
-				</a>
+			<li class="site-header__item">
+				<a class="site-header__link" href="{{tours_url}}">Екскурсії</a>
 			</li>
 			<li class="site-header__item">
 				<a class="site-header__link" href="#testimonials">Відгуки</a>
