@@ -10,29 +10,49 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Create the Tours page once if it does not exist yet.
+ * Create theme pages once if they do not exist yet.
  */
-function amalfitana_maybe_create_tours_page() {
-	if ( null !== get_page_by_path( 'tours' ) ) {
-		return;
-	}
-
-	wp_insert_post(
+function amalfitana_maybe_create_theme_pages() {
+	$pages = array(
 		array(
-			'post_title'  => 'Tours',
-			'post_name'   => 'tours',
-			'post_status' => 'publish',
-			'post_type'   => 'page',
-		)
+			'title' => 'Tours',
+			'slug'  => 'tours',
+		),
+		array(
+			'title' => 'Про мене',
+			'slug'  => 'about',
+		),
 	);
+
+	foreach ( $pages as $page ) {
+		if ( null !== get_page_by_path( $page['slug'] ) ) {
+			continue;
+		}
+
+		wp_insert_post(
+			array(
+				'post_title'  => $page['title'],
+				'post_name'   => $page['slug'],
+				'post_status' => 'publish',
+				'post_type'   => 'page',
+			)
+		);
+	}
 }
-add_action( 'init', 'amalfitana_maybe_create_tours_page' );
+add_action( 'init', 'amalfitana_maybe_create_theme_pages' );
 
 /**
  * Return the canonical URL for the Tours page.
  */
 function amalfitana_get_tours_page_url() {
 	return esc_url( home_url( '/tours/' ) );
+}
+
+/**
+ * Return the canonical URL for the About page.
+ */
+function amalfitana_get_about_page_url() {
+	return esc_url( home_url( '/about/' ) );
 }
 
 /**
@@ -56,11 +76,11 @@ function amalfitana_render_template_placeholders( $block_content, $block ) {
 add_filter( 'render_block', 'amalfitana_render_template_placeholders', 10, 2 );
 
 /**
- * Inject the dynamic Tours page URL into the header template part.
+ * Inject dynamic page URLs into the header template part.
  *
  * Block theme template parts are HTML and cannot run inline PHP.
  */
-function amalfitana_render_header_tours_link( $block_content, $block ) {
+function amalfitana_render_header_nav_links( $block_content, $block ) {
 	if (
 		empty( $block['blockName'] ) ||
 		'core/template-part' !== $block['blockName'] ||
@@ -70,13 +90,18 @@ function amalfitana_render_header_tours_link( $block_content, $block ) {
 		return $block_content;
 	}
 
+	$replacements = array(
+		'href="{{tours_url}}"' => 'href="' . amalfitana_get_tours_page_url() . '"',
+		'href="{{about_url}}"' => 'href="' . amalfitana_get_about_page_url() . '"',
+	);
+
 	return str_replace(
-		'href="{{tours_url}}"',
-		'href="' . amalfitana_get_tours_page_url() . '"',
+		array_keys( $replacements ),
+		array_values( $replacements ),
 		$block_content
 	);
 }
-add_filter( 'render_block', 'amalfitana_render_header_tours_link', 10, 2 );
+add_filter( 'render_block', 'amalfitana_render_header_nav_links', 10, 2 );
 
 /**
  * Enqueue Google Fonts on the frontend and in the block editor.
@@ -136,6 +161,13 @@ function amalfitana_enqueue_theme_styles() {
 	wp_enqueue_style(
 		'amalfitana-tours-hero',
 		get_template_directory_uri() . '/assets/css/tours-hero.css',
+		array( 'amalfitana-google-fonts' ),
+		wp_get_theme()->get( 'Version' )
+	);
+
+	wp_enqueue_style(
+		'amalfitana-about-hero',
+		get_template_directory_uri() . '/assets/css/about-hero.css',
 		array( 'amalfitana-google-fonts' ),
 		wp_get_theme()->get( 'Version' )
 	);
