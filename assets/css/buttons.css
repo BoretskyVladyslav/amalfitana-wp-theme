@@ -1,0 +1,114 @@
+/**
+ * Global button UI kit — Figma node 14:1268
+ */
+
+.btn {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	border-radius: 50px;
+	border: 1px solid transparent;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+}
+
+.btn__icon {
+	display: block;
+	flex-shrink: 0;
+	width: 13px;
+	height: 10px;
+	transition: transform 0.3s ease-in-out, fill 0.3s ease-in-out;
+}
+
+.btn__icon path {
+	transition: fill 0.3s ease-in-out;
+}
+
+.btn:hover .btn__icon,
+.btn:focus-visible .btn__icon {
+	transform: translateX(4px);
+}
+
+/* Outline — Figma Default (14:1269) / hover Variant4 (14:1272) */
+.btn--outline {
+	min-height: 52px;
+	padding: 15px 20px;
+	background-color: transparent;
+	border-color: #d5e3f8;
+	color: #2e3c52;
+}
+
+.btn--outline .btn__icon path {
+	fill: #2e3c52;
+}
+
+.btn--outline:hover,
+.btn--outline:focus-visible {
+	background-color: #e87f24;
+	border-color: #e87f24;
+	color: #ffffff;
+}
+
+.btn--outline:hover .btn__icon path,
+.btn--outline:focus-visible .btn__icon path {
+	fill: #ffffff;
+}
+
+/* Orange / Primary — Figma Variant2 default (14:1275) / hover Variant3 (14:1284) */
+.btn--orange,
+.btn--primary {
+	padding: 20px 40px;
+	background-color: #e87f24;
+	color: #ffffff;
+}
+
+.btn--orange .btn__icon path,
+.btn--primary .btn__icon path {
+	fill: #ffffff;
+}
+
+.btn--orange:hover,
+.btn--orange:focus-visible,
+.btn--primary:hover,
+.btn--primary:focus-visible {
+	background-color: #ffaa61;
+	color: #ffffff;
+}
+
+.btn--orange:hover .btn__icon path,
+.btn--orange:focus-visible .btn__icon path,
+.btn--primary:hover .btn__icon path,
+.btn--primary:focus-visible .btn__icon path {
+	fill: #ffffff;
+}
+
+/* White — Figma Variant2 white (14:1278) / hover orange (14:1281) */
+.btn--white {
+	padding: 20px 40px;
+	background-color: #ffffff;
+	color: #e87f24;
+}
+
+.btn--white .btn__icon path {
+	fill: #e87f24;
+}
+
+.btn--white:hover,
+.btn--white:focus-visible {
+	background-color: #e87f24;
+	color: #ffffff;
+}
+
+.btn--white:hover .btn__icon path,
+.btn--white:focus-visible .btn__icon path {
+	fill: #ffffff;
+}

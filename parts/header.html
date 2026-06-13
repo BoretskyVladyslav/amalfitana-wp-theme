@@ -1,0 +1,241 @@
+<!-- wp:html -->
+<style>
+	.site-header {
+		position: absolute;
+		top: 30px;
+		left: 0;
+		right: 0;
+		z-index: 50;
+		display: flex;
+		justify-content: center;
+		margin: 0;
+		padding: 0;
+	}
+
+	.site-header__nav {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 15px 60px;
+		background: rgba(255, 255, 255, 0.9);
+		backdrop-filter: blur(3.3px);
+		-webkit-backdrop-filter: blur(3.3px);
+		border-radius: 50px;
+	}
+
+	.site-header__list {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 40px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.site-header__item {
+		margin: 0;
+		padding: 0;
+	}
+
+	.site-header__link {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 5px;
+		padding: 10px 20px;
+		border-radius: 50px;
+		font-family: var(--wp--preset--font-family--inter);
+		font-size: 16px;
+		font-weight: 600;
+		line-height: normal;
+		text-transform: uppercase;
+		color: var(--wp--preset--color--foreground);
+		text-decoration: none;
+		white-space: nowrap;
+		transition: all 0.3s ease;
+	}
+
+	.site-header__link:hover,
+	.site-header__link:focus {
+		background-color: var(--wp--preset--color--secondary);
+		padding: 8px 16px;
+		border-radius: 50px;
+		color: var(--wp--preset--color--foreground);
+	}
+
+	.site-header__icon {
+		display: block;
+		flex-shrink: 0;
+		width: 24px;
+		height: 24px;
+	}
+
+	.site-header__burger {
+		display: none;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 5px;
+		width: 44px;
+		height: 44px;
+		margin: 0;
+		padding: 0;
+		border: none;
+		background: none;
+		cursor: pointer;
+		line-height: 0;
+		flex-shrink: 0;
+	}
+
+	.site-header__burger .line {
+		display: block;
+		width: 22px;
+		height: 2.5px;
+		background-color: #e87f24;
+		border-radius: 2px;
+		transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+	}
+
+	@media (max-width: 768px) {
+		.site-header {
+			justify-content: flex-end;
+			padding-right: 20px;
+			padding-left: 0;
+			top: 20px;
+		}
+
+		.site-header__nav {
+			position: relative;
+			left: auto;
+			right: auto;
+			transform: none;
+			justify-content: center;
+			width: fit-content;
+			min-width: 56px;
+			max-width: calc(100% - 40px);
+			padding: 6px 12px;
+			background: rgba(255, 255, 255, 0.95);
+			border-radius: 50px;
+			backdrop-filter: blur(3.3px);
+			-webkit-backdrop-filter: blur(3.3px);
+			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+		}
+
+		.site-header__burger {
+			display: inline-flex;
+			gap: 6px;
+		}
+
+		.site-header__burger .line {
+			width: 22px;
+			height: 2.5px;
+			background-color: #e87f24;
+		}
+
+		.site-header__nav.is-active .site-header__burger .line:nth-child(1) {
+			transform: translateY(8.5px) rotate(45deg);
+		}
+
+		.site-header__nav.is-active .site-header__burger .line:nth-child(2) {
+			opacity: 0;
+			transform: scaleX(0);
+		}
+
+		.site-header__nav.is-active .site-header__burger .line:nth-child(3) {
+			transform: translateY(-8.5px) rotate(-45deg);
+		}
+
+		.site-header__list {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
+			gap: 20px;
+			position: absolute;
+			top: calc(100% + 10px);
+			right: 0;
+			min-width: 220px;
+			margin: 0;
+			padding: 20px;
+			background: rgba(255, 255, 255, 0.98);
+			backdrop-filter: blur(3.3px);
+			-webkit-backdrop-filter: blur(3.3px);
+			border-radius: 20px;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+			list-style: none;
+			opacity: 0;
+			visibility: hidden;
+			transform: translateY(-12px);
+			pointer-events: none;
+			transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+		}
+
+		.site-header__nav.is-active .site-header__list {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0);
+			pointer-events: auto;
+		}
+	}
+</style>
+
+<header class="site-header">
+	<nav class="site-header__nav" aria-label="Primary">
+		<button class="site-header__burger" type="button" aria-label="Open menu" aria-expanded="false">
+			<span class="line" aria-hidden="true"></span>
+			<span class="line" aria-hidden="true"></span>
+			<span class="line" aria-hidden="true"></span>
+		</button>
+		<ul class="site-header__list">
+			<li class="site-header__item">
+				<a class="site-header__link" href="#about">Про мене</a>
+			</li>
+			<li class="site-header__item site-header__item--has-dropdown">
+				<a class="site-header__link site-header__link--dropdown" href="#tours">
+					<span class="site-header__link-text">екскурсії</span>
+					<svg class="site-header__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+						<path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" fill="var(--wp--preset--color--foreground)"/>
+					</svg>
+				</a>
+			</li>
+			<li class="site-header__item">
+				<a class="site-header__link" href="#testimonials">Відгуки</a>
+			</li>
+			<li class="site-header__item">
+				<a class="site-header__link" href="#faq">FAQ</a>
+			</li>
+			<li class="site-header__item">
+				<a class="site-header__link" href="#contacts">Контакти</a>
+			</li>
+		</ul>
+	</nav>
+</header>
+
+<script>
+	(function () {
+		var nav = document.querySelector('.site-header__nav');
+		var burger = document.querySelector('.site-header__burger');
+
+		if (!nav || !burger) {
+			return;
+		}
+
+		function setMenuOpen(isOpen) {
+			nav.classList.toggle('is-active', isOpen);
+			burger.classList.toggle('is-active', isOpen);
+			burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+			burger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+		}
+
+		burger.addEventListener('click', function () {
+			setMenuOpen(!nav.classList.contains('is-active'));
+		});
+
+		nav.querySelectorAll('.site-header__link').forEach(function (link) {
+			link.addEventListener('click', function () {
+				setMenuOpen(false);
+			});
+		});
+	}());
+</script>
+<!-- /wp:html -->
