@@ -30,35 +30,37 @@
 	}
 
 	function initFaqAccordion() {
-		const faqSection = document.querySelector('.faq-section');
+		const containers = document.querySelectorAll('.faq-section, .faq-accordion-container');
 
-		if (!faqSection) {
+		if (!containers.length) {
 			return;
 		}
 
-		const triggers = faqSection.querySelectorAll('.faq-item__trigger');
+		containers.forEach(function (faqSection) {
+			const triggers = faqSection.querySelectorAll('.faq-item__trigger');
 
-		triggers.forEach(function (trigger) {
-			trigger.addEventListener('click', function () {
-				const item = trigger.closest('.faq-item');
+			triggers.forEach(function (trigger) {
+				trigger.addEventListener('click', function () {
+					const item = trigger.closest('.faq-item');
 
-				if (!item) {
-					return;
-				}
+					if (!item) {
+						return;
+					}
 
-				const isExpanded = item.classList.contains('faq-item--expanded');
+					const isExpanded = item.classList.contains('faq-item--expanded');
 
-				faqSection.querySelectorAll('.faq-item--expanded').forEach(function (openItem) {
-					if (openItem !== item) {
-						closeItem(openItem);
+					faqSection.querySelectorAll('.faq-item--expanded').forEach(function (openItem) {
+						if (openItem !== item) {
+							closeItem(openItem);
+						}
+					});
+
+					if (isExpanded) {
+						closeItem(item);
+					} else {
+						openItem(item);
 					}
 				});
-
-				if (isExpanded) {
-					closeItem(item);
-				} else {
-					openItem(item);
-				}
 			});
 		});
 	}

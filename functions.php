@@ -22,14 +22,33 @@ function amalfitana_maybe_create_theme_pages() {
 			'title' => 'Про мене',
 			'slug'  => 'about',
 		),
+		array(
+			'title' => 'Відгуки',
+			'slug'  => 'reviews',
+		),
+		array(
+			'title'    => 'FAQ',
+			'slug'     => 'faq',
+			'template' => 'page-faq',
+		),
+		array(
+			'title'    => 'Dolce Vita Maiori – Castello San Nicola de Thoro-Plano',
+			'slug'     => 'dolce-vita-maiori',
+			'template' => 'page-tour-detail',
+		),
 	);
 
 	foreach ( $pages as $page ) {
-		if ( null !== get_page_by_path( $page['slug'] ) ) {
+		$existing_page = get_page_by_path( $page['slug'] );
+
+		if ( null !== $existing_page ) {
+			if ( ! empty( $page['template'] ) ) {
+				update_post_meta( $existing_page->ID, '_wp_page_template', $page['template'] );
+			}
 			continue;
 		}
 
-		wp_insert_post(
+		$page_id = wp_insert_post(
 			array(
 				'post_title'  => $page['title'],
 				'post_name'   => $page['slug'],
@@ -37,6 +56,10 @@ function amalfitana_maybe_create_theme_pages() {
 				'post_type'   => 'page',
 			)
 		);
+
+		if ( $page_id && ! is_wp_error( $page_id ) && ! empty( $page['template'] ) ) {
+			update_post_meta( $page_id, '_wp_page_template', $page['template'] );
+		}
 	}
 }
 add_action( 'init', 'amalfitana_maybe_create_theme_pages' );
@@ -56,6 +79,60 @@ function amalfitana_get_about_page_url() {
 }
 
 /**
+ * Return the canonical URL for the Reviews page.
+ */
+function amalfitana_get_reviews_page_url() {
+	return esc_url( home_url( '/reviews/' ) );
+}
+
+/**
+ * Return the canonical URL for the FAQ page.
+ */
+function amalfitana_get_faq_page_url() {
+	return esc_url( home_url( '/faq/' ) );
+}
+
+/**
+ * Resolve a media library attachment URL by filename at the requested size.
+ *
+ * Falls back to the uploads folder when no attachment is found.
+ *
+ * @param string $filename Basename of the uploaded file (e.g. hero-bg.png).
+ * @param string $size     WordPress image size; defaults to full.
+ * @return string Escaped URL.
+ */
+function amalfitana_get_media_url_by_filename( $filename, $size = 'full' ) {
+	global $wpdb;
+
+	$attachment_id = $wpdb->get_var(
+		$wpdb->prepare(
+			"SELECT ID FROM {$wpdb->posts} WHERE post_type = 'attachment' AND guid LIKE %s ORDER BY ID DESC LIMIT 1",
+			'%' . $wpdb->esc_like( $filename )
+		)
+	);
+
+	if ( $attachment_id ) {
+		$attachment_id = (int) $attachment_id;
+		$src           = wp_get_attachment_image_src( $attachment_id, 'full' );
+
+		if ( ! empty( $src[0] ) ) {
+			$url = $src[0];
+
+			if ( function_exists( 'wp_get_original_image_url' ) ) {
+				$original_url = wp_get_original_image_url( $attachment_id );
+				if ( $original_url ) {
+					$url = $original_url;
+				}
+			}
+
+			return esc_url( $url );
+		}
+	}
+
+	return esc_url( content_url( 'uploads/2026/06/' . $filename ) );
+}
+
+/**
  * Replace template placeholders in HTML blocks.
  */
 function amalfitana_render_template_placeholders( $block_content, $block ) {
@@ -63,9 +140,25 @@ function amalfitana_render_template_placeholders( $block_content, $block ) {
 		return $block_content;
 	}
 
-	$replacements = array(
-		'href="{{home_url}}"' => 'href="' . esc_url( home_url( '/' ) ) . '"',
+	$hero_media = array(
+		'hero-bg.png'    => '{{hero_bg_url}}',
+		'round-img1.png' => '{{round_img1_url}}',
+		'round-img2.png' => '{{round_img2_url}}',
+		'round-img3.png' => '{{round_img3_url}}',
+		'round-img4.png' => '{{round_img4_url}}',
+		'round-img5.png' => '{{round_img5_url}}',
+		'round-img6.png' => '{{round_img6_url}}',
+		'round-img7.png' => '{{round_img7_url}}',
 	);
+
+	$replacements = array(
+		'href="{{home_url}}"'  => 'href="' . esc_url( home_url( '/' ) ) . '"',
+		'href="{{tours_url}}"' => 'href="' . amalfitana_get_tours_page_url() . '"',
+	);
+
+	foreach ( $hero_media as $filename => $placeholder ) {
+		$replacements[ $placeholder ] = amalfitana_get_media_url_by_filename( $filename, 'full' );
+	}
 
 	return str_replace(
 		array_keys( $replacements ),
@@ -91,8 +184,10 @@ function amalfitana_render_header_nav_links( $block_content, $block ) {
 	}
 
 	$replacements = array(
-		'href="{{tours_url}}"' => 'href="' . amalfitana_get_tours_page_url() . '"',
-		'href="{{about_url}}"' => 'href="' . amalfitana_get_about_page_url() . '"',
+		'href="{{home_url}}"'    => 'href="' . esc_url( home_url( '/' ) ) . '"',
+		'href="{{tours_url}}"'   => 'href="' . amalfitana_get_tours_page_url() . '"',
+		'href="{{about_url}}"'   => 'href="' . amalfitana_get_about_page_url() . '"',
+		'href="{{reviews_url}}"' => 'href="' . amalfitana_get_reviews_page_url() . '"',
 	);
 
 	return str_replace(
@@ -159,6 +254,27 @@ function amalfitana_enqueue_theme_styles() {
 	);
 
 	wp_enqueue_style(
+		'amalfitana-animations',
+		get_template_directory_uri() . '/assets/css/animations.css',
+		array(),
+		wp_get_theme()->get( 'Version' )
+	);
+
+	wp_enqueue_style(
+		'amalfitana-testimonial-card',
+		get_template_directory_uri() . '/assets/css/testimonial-card.css',
+		array( 'amalfitana-google-fonts' ),
+		wp_get_theme()->get( 'Version' )
+	);
+
+	wp_enqueue_style(
+		'amalfitana-reviews-grid',
+		get_template_directory_uri() . '/assets/css/reviews-grid.css',
+		array( 'amalfitana-google-fonts', 'amalfitana-testimonial-card', 'amalfitana-animations' ),
+		wp_get_theme()->get( 'Version' )
+	);
+
+	wp_enqueue_style(
 		'amalfitana-tours-hero',
 		get_template_directory_uri() . '/assets/css/tours-hero.css',
 		array( 'amalfitana-google-fonts' ),
@@ -173,11 +289,43 @@ function amalfitana_enqueue_theme_styles() {
 	);
 
 	wp_enqueue_style(
+		'amalfitana-reviews-hero',
+		get_template_directory_uri() . '/assets/css/reviews-hero.css',
+		array( 'amalfitana-google-fonts' ),
+		wp_get_theme()->get( 'Version' )
+	);
+
+	wp_enqueue_style(
 		'amalfitana-tours-grid',
 		get_template_directory_uri() . '/assets/css/tours-grid.css',
 		array( 'amalfitana-google-fonts', 'amalfitana-tour-card' ),
 		wp_get_theme()->get( 'Version' )
 	);
+
+	if ( is_page_template( 'page-tour-detail' ) ) {
+		wp_enqueue_style(
+			'amalfitana-tour-detail-hero',
+			get_template_directory_uri() . '/assets/css/tour-detail-hero.css',
+			array( 'amalfitana-google-fonts', 'amalfitana-animations', 'amalfitana-tours-grid' ),
+			wp_get_theme()->get( 'Version' )
+		);
+
+		wp_enqueue_style(
+			'amalfitana-tour-detail-content',
+			get_template_directory_uri() . '/assets/css/tour-detail-content.css',
+			array( 'amalfitana-google-fonts', 'amalfitana-animations', 'amalfitana-buttons' ),
+			wp_get_theme()->get( 'Version' )
+		);
+	}
+
+	if ( is_page_template( 'page-faq' ) ) {
+		wp_enqueue_style(
+			'amalfitana-faq-page',
+			get_template_directory_uri() . '/assets/css/faq-page.css',
+			array( 'amalfitana-google-fonts', 'amalfitana-faq', 'amalfitana-animations', 'amalfitana-tours-grid' ),
+			wp_get_theme()->get( 'Version' )
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'amalfitana_enqueue_theme_styles' );
 add_action( 'enqueue_block_editor_assets', 'amalfitana_enqueue_theme_styles' );
@@ -186,6 +334,14 @@ add_action( 'enqueue_block_editor_assets', 'amalfitana_enqueue_theme_styles' );
  * Enqueue theme scripts.
  */
 function amalfitana_enqueue_theme_scripts() {
+	wp_enqueue_script(
+		'amalfitana-animations',
+		get_template_directory_uri() . '/assets/js/animations.js',
+		array(),
+		wp_get_theme()->get( 'Version' ),
+		true
+	);
+
 	wp_enqueue_script(
 		'amalfitana-faq',
 		get_template_directory_uri() . '/assets/js/faq.js',
@@ -201,5 +357,40 @@ function amalfitana_enqueue_theme_scripts() {
 		wp_get_theme()->get( 'Version' ),
 		true
 	);
+
+	if ( is_page_template( 'page-tour-detail' ) ) {
+		wp_enqueue_script(
+			'amalfitana-tour-checkout',
+			get_template_directory_uri() . '/assets/js/tour-checkout.js',
+			array(),
+			wp_get_theme()->get( 'Version' ),
+			true
+		);
+	}
+
+	if ( is_page( 'about' ) ) {
+		wp_enqueue_style(
+			'swiper',
+			'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css',
+			array(),
+			'11.2.10'
+		);
+
+		wp_enqueue_script(
+			'swiper',
+			'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js',
+			array(),
+			'11.2.10',
+			true
+		);
+
+		wp_enqueue_script(
+			'amalfitana-about-testimonials',
+			get_template_directory_uri() . '/assets/js/about-testimonials.js',
+			array( 'swiper' ),
+			wp_get_theme()->get( 'Version' ),
+			true
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'amalfitana_enqueue_theme_scripts' );

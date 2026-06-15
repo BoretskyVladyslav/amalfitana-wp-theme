@@ -1,0 +1,108 @@
+/**
+ * Shared testimonial card component — reused across About slider and Reviews grid.
+ */
+
+.about-testimonials__card {
+	box-sizing: border-box;
+	width: 100%;
+	height: auto;
+	background-color: #ffffff;
+	border-radius: 16px;
+	box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 30px;
+}
+
+.about-testimonials__message-box {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+	gap: 10px;
+	width: 100%;
+	background-color: #f6f6f6;
+	border-radius: 8px;
+	padding: 30px 20px;
+}
+
+.about-testimonials__stars {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	gap: 10px;
+}
+
+.about-testimonials__star {
+	display: block;
+	flex-shrink: 0;
+	width: 24px;
+	height: 24px;
+}
+
+.about-testimonials__star path {
+	fill: #e87f24;
+}
+
+.about-testimonials__text {
+	margin: 0;
+	width: 100%;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.3;
+	color: #000000;
+	word-break: break-word;
+}
+
+.about-testimonials__text p {
+	margin: 0 0 0;
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+	color: inherit;
+}
+
+.about-testimonials__author {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 19px;
+	width: 100%;
+}
+
+.about-testimonials__avatar {
+	display: block;
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	object-fit: cover;
+	flex-shrink: 0;
+}
+
+.about-testimonials__author-details {
+	flex: 1 0 0;
+	min-width: 0;
+}
+
+.about-testimonials__name {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.6;
+	color: #e87f24;
+}
+
+.about-testimonials__location {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.6;
+	color: #b4b4b4;
+}

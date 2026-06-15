@@ -93,8 +93,8 @@
 	transition: color 0.3s ease;
 }
 
-.site-footer__link:hover,
-.site-footer__link:focus-visible {
+.site-footer__links a.site-footer__link:hover,
+.site-footer__links a.site-footer__link:focus-visible {
 	color: #e87f24;
 }
 
@@ -132,7 +132,14 @@
 }
 
 .site-footer__developer-link:hover,
+.site-footer__developer-link:focus,
 .site-footer__developer-link:focus-visible {
+	color: #e87f24;
+}
+
+.site-footer__developer-link:hover .site-footer__developer-name,
+.site-footer__developer-link:focus .site-footer__developer-name,
+.site-footer__developer-link:focus-visible .site-footer__developer-name {
 	color: #e87f24;
 }
 
@@ -147,6 +154,7 @@
 }
 
 .site-footer__developer-link:hover svg path,
+.site-footer__developer-link:focus svg path,
 .site-footer__developer-link:focus-visible svg path {
 	fill: #e87f24;
 	fill-opacity: 1;
@@ -161,18 +169,19 @@
 
 .site-footer__developer-name {
 	white-space: nowrap;
+	transition: color 0.3s ease;
 }
 
 @media (max-width: 768px) {
 	.site-footer {
-		gap: 16px;
-		padding: 24px 16px;
-		margin-bottom: 24px;
+		gap: 10px;
+		padding: 16px 16px;
+		margin-bottom: 16px;
 	}
 
 	.site-footer__socials {
 		flex-wrap: nowrap;
-		gap: 12px;
+		gap: 8px;
 	}
 
 	.site-footer__social-link {
@@ -195,7 +204,7 @@
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: center;
-		gap: 8px;
+		gap: 5px;
 		max-width: 100%;
 		font-size: 12px;
 		line-height: 1.4;
@@ -204,11 +213,11 @@
 	.site-footer__developer {
 		flex-direction: row;
 		flex-wrap: nowrap;
-		gap: 6px;
+		gap: 4px;
 		font-size: 12px;
 	}
 
 	.site-footer__developer-link {
-		gap: 6px;
+		gap: 4px;
 	}
 }

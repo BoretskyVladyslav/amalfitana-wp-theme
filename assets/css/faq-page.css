@@ -1,0 +1,98 @@
+/**
+ * FAQ page layout — dedicated /faq/ template
+ */
+
+.faq-page-wrapper {
+	box-sizing: border-box;
+	width: 100%;
+	background-color: #ffffff;
+}
+
+.faq-page-hero {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 140px 20px 48px;
+	background-color: #ffffff;
+}
+
+.faq-page-hero__inner {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: var(--wp--custom--layout--content-size, 1170px);
+	margin: 0 auto;
+}
+
+.faq-page-hero__breadcrumbs {
+	display: flex;
+	justify-content: flex-start;
+	width: 100%;
+	margin: 0 0 32px;
+}
+
+.faq-page-hero__breadcrumbs .tours-grid-section__breadcrumbs {
+	margin: 0;
+}
+
+.faq-page-hero__title {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 48px;
+	font-weight: 600;
+	font-style: normal;
+	line-height: 1.2;
+	color: #000000;
+	text-transform: uppercase;
+}
+
+.faq-page-content {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 0 20px 80px;
+}
+
+.faq-page-content__inner {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: var(--wp--custom--layout--content-size, 1170px);
+	margin: 0 auto;
+}
+
+.faq-accordion-container {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.faq-page-content .faq-item__answer {
+	color: #4d4d4d;
+}
+
+.faq-page-content .faq-item--expanded {
+	border-color: #e87f24;
+}
+
+.faq-page-content .faq-item--expanded .faq-item__icon-wrap {
+	background-color: rgba(232, 127, 36, 0.12);
+}
+
+@media (max-width: 768px) {
+	.faq-page-hero {
+		padding: 120px 16px 32px;
+	}
+
+	.faq-page-hero__breadcrumbs {
+		margin-bottom: 24px;
+	}
+
+	.faq-page-hero__title {
+		font-size: 30px;
+	}
+
+	.faq-page-content {
+		padding: 0 16px 60px;
+	}
+}

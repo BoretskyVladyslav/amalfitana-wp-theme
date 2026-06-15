@@ -20,9 +20,9 @@
 	}
 
 	function initSubscribeForm() {
-		var form = document.querySelector('.subscribe-section__form');
-		var input = document.querySelector('.subscribe-section__input');
-		var message = document.querySelector('.subscribe-section__message');
+		var form = document.querySelector('.subscribe-section .subscribe-section__form');
+		var input = document.querySelector('.subscribe-section .subscribe-section__input');
+		var message = document.querySelector('.subscribe-section .subscribe-section__message');
 		var button = document.querySelector('#subscribe-submit');
 		var buttonText = document.querySelector('.subscribe-section__btn-text');
 		var buttonIcon = button ? button.querySelector('.btn__icon') : null;

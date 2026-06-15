@@ -1,0 +1,552 @@
+/**
+ * Tour detail main content — light theme
+ * Figma nodes 14:599, 14:606, 14:628, 202:1113
+ * Desktop frame: 1170px container, 770px + 370px grid
+ */
+
+.tour-detail-content {
+	box-sizing: border-box;
+	width: 100%;
+	background-color: #ffffff;
+	padding: 40px 0 80px;
+}
+
+.tour-detail-content__container {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: min(var(--wp--custom--layout--content-size, 1170px), calc(100vw - 40px));
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+/* ── Breadcrumbs (Figma 14:599) ── */
+
+.tour-detail-content__breadcrumbs {
+	display: flex;
+	justify-content: flex-start;
+	width: 100%;
+	margin: 0 0 40px;
+}
+
+.tour-detail-content__breadcrumbs .tours-grid-section__breadcrumbs-list {
+	gap: 4px;
+}
+
+.tour-detail-content__breadcrumbs .tours-grid-section__breadcrumbs-item {
+	font-size: 16px;
+	line-height: 1.3;
+}
+
+.tour-detail-content__breadcrumbs .tours-grid-section__breadcrumbs-link {
+	color: #4d4d4d;
+	text-decoration: none;
+	transition: color 0.2s ease;
+}
+
+.tour-detail-content__breadcrumbs .tours-grid-section__breadcrumbs-link:hover,
+.tour-detail-content__breadcrumbs .tours-grid-section__breadcrumbs-link:focus-visible {
+	color: #000000;
+}
+
+.tour-detail-content__breadcrumbs .tours-grid-section__breadcrumbs-current {
+	color: #c3c3c3;
+}
+
+.tour-detail-content__breadcrumbs .tours-grid-section__breadcrumbs-separator svg path {
+	fill: #c3c3c3;
+}
+
+.tour-detail-content__grid {
+	display: grid;
+	grid-template-columns: minmax(0, 770px) 370px;
+	column-gap: 30px;
+	row-gap: 40px;
+	align-items: start;
+}
+
+/* ── Info / metrics bar (Figma 14:606) ── */
+
+.tour-detail-content__metrics {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	align-items: stretch;
+	margin-bottom: 40px;
+}
+
+.tour-detail-content__metric {
+	box-sizing: border-box;
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	min-height: 69px;
+	padding: 15px 20px;
+	border: 1px solid #f2f2f2;
+	border-radius: 8px;
+	background-color: #ffffff;
+}
+
+.tour-detail-content__metric-icon {
+	flex-shrink: 0;
+	width: 24px;
+	height: 24px;
+}
+
+.tour-detail-content__metric-icon path {
+	fill: #e87f24;
+}
+
+.tour-detail-content__metric-body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 0;
+	min-width: 0;
+}
+
+.tour-detail-content__metric-label {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.3;
+	color: #c3c3c3;
+}
+
+.tour-detail-content__metric-value {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.3;
+	color: #4d4d4d;
+}
+
+.tour-detail-content__metric-value-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.tour-detail-content__metric-info {
+	flex-shrink: 0;
+	width: 18px;
+	height: 18px;
+}
+
+.tour-detail-content__metric-info path {
+	fill: #e87f24;
+}
+
+/* ── Main column typography (Figma 14:628, 14:629, 202:1113) ── */
+
+.tour-detail-content__main {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.tour-detail-content__heading {
+	margin: 0 0 20px;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 24px;
+	font-weight: 600;
+	font-style: normal;
+	line-height: 1.2;
+	letter-spacing: normal;
+	color: #000000;
+	text-transform: uppercase;
+}
+
+.tour-detail-content__prose {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+}
+
+.tour-detail-content__prose p {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	font-style: normal;
+	line-height: 1.3;
+	color: #4d4d4d;
+}
+
+.tour-detail-content__prose p + p:not(.tour-detail-content__prose-spacer) {
+	margin-top: 0;
+}
+
+.tour-detail-content__prose-spacer {
+	min-height: 1.3em;
+}
+
+/* ── Image galleries (Figma 14:630, 14:634) ── */
+
+.tour-detail-content__gallery {
+	display: grid;
+	width: 100%;
+	margin: 20px 0;
+}
+
+.tour-detail-content__gallery--cols-2 {
+	grid-template-columns: repeat(2, 1fr);
+	gap: 30px;
+}
+
+.tour-detail-content__gallery--cols-2 img {
+	width: 100%;
+	height: 291px;
+	border-radius: 24px;
+	object-fit: cover;
+}
+
+.tour-detail-content__gallery--cols-3 {
+	grid-template-columns: repeat(3, 1fr);
+	gap: 20px;
+}
+
+.tour-detail-content__gallery--cols-3 img {
+	width: 100%;
+	height: 191px;
+	border-radius: 24px;
+	object-fit: cover;
+}
+
+/* ── Section blocks & lists (Figma 14:639–14:717) ── */
+
+.tour-detail-content__section {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	margin-top: 40px;
+	padding-bottom: 40px;
+	border-bottom: 1px solid #e87f24;
+}
+
+.tour-detail-content__section--first {
+	margin-top: 80px;
+}
+
+.tour-detail-content__section .tour-detail-content__heading {
+	margin-bottom: 0;
+}
+
+.tour-detail-content__section-text {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.3;
+	color: #4d4d4d;
+}
+
+.tour-detail-content__note {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.3;
+	color: #4d4d4d;
+}
+
+.tour-detail-list {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.tour-detail-list__item {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+}
+
+.tour-detail-list__icon {
+	flex-shrink: 0;
+	width: 20px;
+	height: 20px;
+	margin-top: 1px;
+}
+
+.tour-detail-list__dash {
+	display: inline-block;
+	width: 12px;
+	height: 2px;
+	margin-top: 10px;
+	flex-shrink: 0;
+	background-color: #e87f24;
+}
+
+.tour-detail-list__text {
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.3;
+	color: #4d4d4d;
+}
+
+.tour-detail-content__callout {
+	box-sizing: border-box;
+	width: 100%;
+	margin: 40px 0 0;
+	padding: 20px;
+	border: none;
+	border-radius: 0;
+	background-color: #ffffff;
+	box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.tour-detail-content__callout p {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.3;
+	color: #000000;
+}
+
+/* ── Sticky sidebar & checkout card (Figma 14:718) ── */
+
+.tour-detail-content__sidebar {
+	position: sticky;
+	top: 120px;
+	align-self: start;
+}
+
+.tour-detail-content__sidebar-inner {
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.tour-checkout-card {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+	width: 100%;
+	padding: 30px;
+	border-radius: 24px;
+	background-color: #ffffff;
+	box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.tour-checkout-card__header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	text-align: center;
+}
+
+.tour-checkout-card__subtitle {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--imperial-script), "Imperial Script", cursive;
+	font-size: 40px;
+	font-weight: 400;
+	font-style: normal;
+	line-height: normal;
+	color: #ffc81e;
+	text-transform: lowercase;
+}
+
+.tour-checkout-card__title {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 18px;
+	font-weight: 600;
+	font-style: normal;
+	line-height: 1.2;
+	color: #000000;
+	text-transform: uppercase;
+}
+
+.tour-checkout-card__desc {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.3;
+	color: #4d4d4d;
+	text-align: center;
+}
+
+.tour-checkout-form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 27px;
+	width: 100%;
+	max-width: none;
+	margin: 0;
+}
+
+.tour-checkout-form__fields {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	width: 100%;
+}
+
+.tour-checkout-form__field {
+	width: 100%;
+}
+
+.tour-checkout-form__control {
+	box-sizing: border-box;
+	position: relative;
+	display: block;
+	width: 100%;
+	min-height: 54px;
+	padding: 0;
+	border: 1px solid #f2f2f2;
+	border-radius: 8px;
+	background-color: #ffffff;
+	transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.tour-checkout-form__control:focus-within {
+	border-color: #e87f24;
+}
+
+.tour-checkout-form__control.is-invalid {
+	border-color: #ff4d4f;
+	background-color: #fff5f5;
+}
+
+.tour-checkout-form__control.is-success {
+	border-color: #52c41a;
+	background-color: #f6ffed;
+}
+
+.tour-checkout-form__control > svg,
+.tour-checkout-form__icon {
+	position: absolute;
+	left: 10px;
+	top: 50%;
+	z-index: 1;
+	width: 24px;
+	height: 24px;
+	transform: translateY(-50%);
+	flex-shrink: 0;
+	pointer-events: none;
+}
+
+.tour-checkout-form__control > svg path,
+.tour-checkout-form__icon path {
+	fill: #c3c3c3;
+	transition: fill 0.3s ease;
+}
+
+.tour-checkout-form__control:focus-within > svg path,
+.tour-checkout-form__control:focus-within .tour-checkout-form__icon path {
+	fill: #e87f24;
+}
+
+.tour-checkout-form__control .tour-checkout-form__input,
+.tour-checkout-form__control .subscribe-section__input {
+	box-sizing: border-box;
+	display: block;
+	width: 100%;
+	min-width: 0;
+	min-height: 54px;
+	margin: 0;
+	padding: 15px 10px 15px 44px;
+	border: none;
+	border-radius: 8px;
+	background-color: transparent;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.3;
+	color: #000000;
+	box-shadow: none;
+	transition: none;
+}
+
+.tour-checkout-form__control .tour-checkout-form__input::placeholder,
+.tour-checkout-form__control .subscribe-section__input::placeholder {
+	color: #999999;
+	opacity: 1;
+}
+
+.tour-checkout-form__control .tour-checkout-form__input:focus,
+.tour-checkout-form__control .tour-checkout-form__input:focus-visible,
+.tour-checkout-form__control .subscribe-section__input:focus,
+.tour-checkout-form__control .subscribe-section__input:focus-visible {
+	outline: none;
+	border-color: transparent;
+	box-shadow: none;
+}
+
+.tour-checkout-form__control #tour-checkout-email {
+	text-transform: lowercase;
+}
+
+.tour-checkout-form__input--date {
+	color: #4d4d4d;
+}
+
+.tour-checkout-form__input--date::-webkit-calendar-picker-indicator {
+	cursor: pointer;
+	opacity: 0.6;
+}
+
+.tour-checkout-form__message {
+	width: 100%;
+	padding: 0;
+	text-align: center;
+}
+
+.tour-checkout-form__submit {
+	width: 100%;
+	justify-content: center;
+	transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+
+.tour-checkout-form__submit .btn__icon,
+.tour-checkout-form__submit .tour-checkout-form__btn-icon {
+	width: 20px;
+	height: 20px;
+}
+
+.tour-checkout-form__submit.is-loading {
+	pointer-events: none;
+	opacity: 0.85;
+}
+
+.tour-checkout-form.is-success .tour-checkout-form__submit,
+.tour-checkout-form__submit.is-success {
+	background-color: #2ecc71;
+	color: #ffffff;
+}
+
+.tour-checkout-form.is-success .tour-checkout-form__submit:hover,
+.tour-checkout-form.is-success .tour-checkout-form__submit:focus-visible,
+.tour-checkout-form__submit.is-success:hover,
+.tour-checkout-form__submit.is-success:focus-visible {
+	background-color: #2ecc71;
+	color: #ffffff;
+}
+
+@media (max-width: 1024px) {
+	.tour-detail-content__grid {
+		grid-template-columns: 1fr;
+	}
+
+	.tour-detail-content__sidebar {
+		position: static;
+		top: auto;
+	}
+
+	.tour-detail-content__sidebar-inner {
+		max-width: 480px;
+		margin: 0 auto;
+	}
+}
