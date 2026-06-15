@@ -10,7 +10,8 @@
 		nameEmpty: "Будь ласка, введіть ваше ім'я.",
 		emailEmpty: 'Будь ласка, введіть ваш email.',
 		emailInvalid: 'Некоректний формат email (наприклад: name@mail.com).',
-		dateEmpty: 'Будь ласка, оберіть дату.'
+		questionEmpty: 'Будь ласка, напишіть ваше питання.',
+		questionTooShort: 'Питання занадто коротке. Напишіть детальніше.'
 	};
 
 	function sanitizeEmailInput(value) {
@@ -22,29 +23,29 @@
 	}
 
 	function getControl(input) {
-		return input ? input.closest('.tour-checkout-form__control') : null;
+		return input ? input.closest('.contacts-page-form__field') : null;
 	}
 
-	function initTourCheckoutForm() {
-		var form = document.querySelector('.tour-checkout-form');
+	function initContactsForm() {
+		var form = document.querySelector('.contacts-page-form');
 
 		if (!form) {
 			return;
 		}
 
-		var nameInput = form.querySelector('#tour-checkout-name');
-		var emailInput = form.querySelector('#tour-checkout-email');
-		var dateInput = form.querySelector('#tour-checkout-date');
-		var message = form.querySelector('.subscribe-section__message');
-		var button = form.querySelector('#tour-checkout-submit');
-		var buttonText = form.querySelector('.subscribe-section__btn-text');
-		var buttonIcon = button ? button.querySelector('.tour-checkout-form__btn-icon') : null;
-		var defaultButtonText = buttonText ? buttonText.textContent : 'Створити мій день';
+		var nameInput = form.querySelector('#contacts-form-name');
+		var emailInput = form.querySelector('#contacts-form-email');
+		var questionInput = form.querySelector('#contacts-form-question');
+		var message = form.querySelector('.contacts-page-form__message');
+		var button = form.querySelector('#contacts-form-submit');
+		var buttonText = form.querySelector('.contacts-page-form__btn-text');
+		var buttonIcon = button ? button.querySelector('.btn__icon') : null;
+		var defaultButtonText = buttonText ? buttonText.textContent : 'Задати питання';
 		var loadingTimer = null;
 		var resetTimer = null;
-		var inputs = [nameInput, emailInput, dateInput];
+		var inputs = [nameInput, emailInput, questionInput];
 
-		if (!nameInput || !emailInput || !dateInput || !message || !button || !buttonText) {
+		if (!nameInput || !emailInput || !questionInput || !message || !button || !buttonText) {
 			return;
 		}
 
@@ -86,12 +87,6 @@
 			});
 		}
 
-		function resetDateInputType() {
-			if (!dateInput.value) {
-				dateInput.type = 'text';
-			}
-		}
-
 		function resetButtonState() {
 			form.classList.remove('is-success');
 			button.classList.remove('is-success', 'is-loading');
@@ -106,7 +101,6 @@
 		function resetFormState() {
 			clearTimers();
 			form.reset();
-			resetDateInputType();
 			clearValidationState();
 			clearMessage();
 			resetButtonState();
@@ -147,7 +141,6 @@
 
 		function showSuccessState() {
 			form.reset();
-			resetDateInputType();
 			clearValidationState();
 			clearMessage();
 
@@ -186,18 +179,12 @@
 			});
 		});
 
-		dateInput.addEventListener('focus', function () {
-			dateInput.type = 'date';
-		});
-
-		dateInput.addEventListener('blur', resetDateInputType);
-
 		form.addEventListener('submit', function (event) {
 			event.preventDefault();
 
 			var nameValue = nameInput.value.trim();
 			var emailValue = sanitizeEmailInput(emailInput.value);
-			var dateValue = dateInput.value;
+			var questionValue = questionInput.value.trim();
 
 			if (emailValue !== emailInput.value) {
 				emailInput.value = emailValue;
@@ -218,8 +205,13 @@
 				return;
 			}
 
-			if (!dateValue) {
-				showError(MESSAGES.dateEmpty, dateInput);
+			if (!questionValue) {
+				showError(MESSAGES.questionEmpty, questionInput);
+				return;
+			}
+
+			if (questionValue.length <= 10) {
+				showError(MESSAGES.questionTooShort, questionInput);
 				return;
 			}
 
@@ -234,8 +226,8 @@
 	}
 
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', initTourCheckoutForm);
+		document.addEventListener('DOMContentLoaded', initContactsForm);
 	} else {
-		initTourCheckoutForm();
+		initContactsForm();
 	}
 })();

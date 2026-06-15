@@ -12,24 +12,23 @@
 	};
 
 	function sanitizeEmailInput(value) {
-		return value.replace(SANITIZE_PATTERN, '');
+		return value.replace(SANITIZE_PATTERN, '').toLowerCase();
 	}
 
 	function isValidEmail(value) {
 		return EMAIL_PATTERN.test(value);
 	}
 
-	function initSubscribeForm() {
-		var form = document.querySelector('.subscribe-section .subscribe-section__form');
-		var input = document.querySelector('.subscribe-section .subscribe-section__input');
-		var message = document.querySelector('.subscribe-section .subscribe-section__message');
-		var button = document.querySelector('#subscribe-submit');
-		var buttonText = document.querySelector('.subscribe-section__btn-text');
+	function initSubscribeForm(form) {
+		var input = form.querySelector('.subscribe-section__input');
+		var message = form.querySelector('.subscribe-section__message');
+		var button = form.querySelector('[type="submit"]');
+		var buttonText = form.querySelector('.subscribe-section__btn-text');
 		var buttonIcon = button ? button.querySelector('.btn__icon') : null;
 		var defaultButtonText = buttonText ? buttonText.textContent : 'Підписатися';
 		var resetTimer = null;
 
-		if (!form || !input || !message || !button || !buttonText) {
+		if (!input || !message || !button || !buttonText) {
 			return;
 		}
 
@@ -133,9 +132,13 @@
 		});
 	}
 
+	function initSubscribeForms() {
+		document.querySelectorAll('.subscribe-section__form:not(.tour-checkout-form)').forEach(initSubscribeForm);
+	}
+
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', initSubscribeForm);
+		document.addEventListener('DOMContentLoaded', initSubscribeForms);
 	} else {
-		initSubscribeForm();
+		initSubscribeForms();
 	}
 })();

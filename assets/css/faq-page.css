@@ -5,49 +5,97 @@
 .faq-page-wrapper {
 	box-sizing: border-box;
 	width: 100%;
+	margin-top: 0 !important;
+	margin-block-start: 0 !important;
 	background-color: #ffffff;
+}
+
+.wp-block-html:has(.faq-page-wrapper) {
+	margin-top: 0 !important;
+	margin-block-start: 0 !important;
 }
 
 .faq-page-hero {
+	position: relative;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
 	box-sizing: border-box;
 	width: 100%;
-	padding: 140px 20px 48px;
-	background-color: #ffffff;
+	min-height: 482px;
+	margin-top: 0 !important;
+	margin-block-start: 0 !important;
+	background-color: #1a1a1a;
+	background-image: var(--faq-page-hero-background-image);
+	background-size: cover;
+	background-position: center top;
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+
+.faq-page-hero::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background: rgba(0, 0, 0, 0.3);
+	pointer-events: none;
 }
 
 .faq-page-hero__inner {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
 	box-sizing: border-box;
 	width: 100%;
-	max-width: var(--wp--custom--layout--content-size, 1170px);
+	max-width: var(--wp--custom--layout--wide-size, 1920px);
+	min-height: 482px;
 	margin: 0 auto;
+	padding: 200px 105px 163px;
 }
 
-.faq-page-hero__breadcrumbs {
+.faq-page-hero__content {
 	display: flex;
-	justify-content: flex-start;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
 	width: 100%;
-	margin: 0 0 32px;
+	max-width: 1074px;
+	margin: 0 auto;
+	text-align: center;
 }
 
-.faq-page-hero__breadcrumbs .tours-grid-section__breadcrumbs {
+.faq-page-hero__subtitle {
 	margin: 0;
+	font-family: var(--wp--preset--font-family--imperial-script), "Imperial Script", cursive;
+	font-size: 60px;
+	font-weight: 400;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #ffc81e;
+	text-transform: lowercase;
 }
 
 .faq-page-hero__title {
 	margin: 0;
 	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
-	font-size: 48px;
+	font-size: 60px;
 	font-weight: 600;
 	font-style: normal;
 	line-height: 1.2;
-	color: #000000;
+	letter-spacing: normal;
+	color: #ffffff;
 	text-transform: uppercase;
+	white-space: nowrap;
 }
 
 .faq-page-content {
 	box-sizing: border-box;
 	width: 100%;
-	padding: 0 20px 80px;
+	padding: 40px 20px 80px;
 }
 
 .faq-page-content__inner {
@@ -57,10 +105,47 @@
 	margin: 0 auto;
 }
 
+/* Breadcrumbs — Figma 14:599 (matches tour detail content) */
+
+.faq-page-content__breadcrumbs {
+	display: flex;
+	justify-content: flex-start;
+	width: 100%;
+	margin: 0 0 40px;
+}
+
+.faq-page-content__breadcrumbs .tours-grid-section__breadcrumbs-list {
+	gap: 4px;
+}
+
+.faq-page-content__breadcrumbs .tours-grid-section__breadcrumbs-item {
+	font-size: 16px;
+	line-height: 1.3;
+}
+
+.faq-page-content__breadcrumbs .tours-grid-section__breadcrumbs-link {
+	color: #4d4d4d;
+	text-decoration: none;
+	transition: color 0.2s ease;
+}
+
+.faq-page-content__breadcrumbs .tours-grid-section__breadcrumbs-link:hover,
+.faq-page-content__breadcrumbs .tours-grid-section__breadcrumbs-link:focus-visible {
+	color: #000000;
+}
+
+.faq-page-content__breadcrumbs .tours-grid-section__breadcrumbs-current {
+	color: #c3c3c3;
+}
+
+.faq-page-content__breadcrumbs .tours-grid-section__breadcrumbs-separator svg path {
+	fill: #c3c3c3;
+}
+
 .faq-accordion-container {
 	display: flex;
 	flex-direction: column;
-	gap: 15px;
+	gap: 20px;
 	width: 100%;
 	margin: 0;
 	padding: 0;
@@ -68,31 +153,65 @@
 }
 
 .faq-page-content .faq-item__answer {
+	font-size: 16px;
+	line-height: 1.3;
 	color: #4d4d4d;
 }
 
-.faq-page-content .faq-item--expanded {
-	border-color: #e87f24;
+.faq-page-content .faq-item--expanded .faq-item__answer {
+	padding-top: 10px;
 }
 
-.faq-page-content .faq-item--expanded .faq-item__icon-wrap {
-	background-color: rgba(232, 127, 36, 0.12);
+@media (max-width: 992px) {
+	.faq-page-hero {
+		min-height: 400px;
+	}
+
+	.faq-page-hero__inner {
+		min-height: 400px;
+		padding: 160px 40px 80px;
+	}
+
+	.faq-page-hero__subtitle {
+		font-size: 52px;
+	}
+
+	.faq-page-hero__title {
+		font-size: 42px;
+		white-space: normal;
+	}
 }
 
 @media (max-width: 768px) {
 	.faq-page-hero {
-		padding: 120px 16px 32px;
+		min-height: auto;
 	}
 
-	.faq-page-hero__breadcrumbs {
-		margin-bottom: 24px;
+	.faq-page-hero__inner {
+		min-height: auto;
+		padding: 120px 20px 60px;
+	}
+
+	.faq-page-hero__content {
+		gap: 12px;
+	}
+
+	.faq-page-hero__subtitle {
+		font-size: 48px;
+		line-height: normal;
 	}
 
 	.faq-page-hero__title {
 		font-size: 30px;
+		line-height: 1.3;
+		white-space: normal;
 	}
 
 	.faq-page-content {
-		padding: 0 16px 60px;
+		padding: 40px 16px 60px;
+	}
+
+	.faq-page-content__breadcrumbs .tours-grid-section__breadcrumbs-item {
+		font-size: 14px;
 	}
 }

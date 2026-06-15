@@ -32,6 +32,11 @@ function amalfitana_maybe_create_theme_pages() {
 			'template' => 'page-faq',
 		),
 		array(
+			'title'    => 'Контакти',
+			'slug'     => 'contacts',
+			'template' => 'page-contacts',
+		),
+		array(
 			'title'    => 'Dolce Vita Maiori – Castello San Nicola de Thoro-Plano',
 			'slug'     => 'dolce-vita-maiori',
 			'template' => 'page-tour-detail',
@@ -90,6 +95,13 @@ function amalfitana_get_reviews_page_url() {
  */
 function amalfitana_get_faq_page_url() {
 	return esc_url( home_url( '/faq/' ) );
+}
+
+/**
+ * Return the canonical URL for the Contacts page.
+ */
+function amalfitana_get_contacts_page_url() {
+	return esc_url( home_url( '/contacts/' ) );
 }
 
 /**
@@ -188,6 +200,8 @@ function amalfitana_render_header_nav_links( $block_content, $block ) {
 		'href="{{tours_url}}"'   => 'href="' . amalfitana_get_tours_page_url() . '"',
 		'href="{{about_url}}"'   => 'href="' . amalfitana_get_about_page_url() . '"',
 		'href="{{reviews_url}}"' => 'href="' . amalfitana_get_reviews_page_url() . '"',
+		'href="{{faq_url}}"'     => 'href="' . amalfitana_get_faq_page_url() . '"',
+		'href="{{contacts_url}}"' => 'href="' . amalfitana_get_contacts_page_url() . '"',
 	);
 
 	return str_replace(
@@ -243,6 +257,13 @@ function amalfitana_enqueue_theme_styles() {
 		'amalfitana-subscribe',
 		get_template_directory_uri() . '/assets/css/subscribe.css',
 		array( 'amalfitana-google-fonts', 'amalfitana-buttons' ),
+		wp_get_theme()->get( 'Version' )
+	);
+
+	wp_enqueue_style(
+		'amalfitana-forms',
+		get_template_directory_uri() . '/assets/css/forms.css',
+		array(),
 		wp_get_theme()->get( 'Version' )
 	);
 
@@ -326,6 +347,23 @@ function amalfitana_enqueue_theme_styles() {
 			wp_get_theme()->get( 'Version' )
 		);
 	}
+
+	if ( is_page_template( 'page-contacts' ) ) {
+		wp_enqueue_style(
+			'amalfitana-contacts-page',
+			get_template_directory_uri() . '/assets/css/contacts-page.css',
+			array( 'amalfitana-google-fonts', 'amalfitana-animations', 'amalfitana-tours-grid', 'amalfitana-buttons', 'amalfitana-footer' ),
+			wp_get_theme()->get( 'Version' )
+		);
+
+		wp_enqueue_script(
+			'amalfitana-contacts-form',
+			get_template_directory_uri() . '/assets/js/contacts-form.js',
+			array(),
+			wp_get_theme()->get( 'Version' ),
+			true
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'amalfitana_enqueue_theme_styles' );
 add_action( 'enqueue_block_editor_assets', 'amalfitana_enqueue_theme_styles' );
@@ -353,6 +391,14 @@ function amalfitana_enqueue_theme_scripts() {
 	wp_enqueue_script(
 		'amalfitana-subscribe',
 		get_template_directory_uri() . '/assets/js/subscribe.js',
+		array(),
+		wp_get_theme()->get( 'Version' ),
+		true
+	);
+
+	wp_enqueue_script(
+		'amalfitana-forms',
+		get_template_directory_uri() . '/assets/js/forms.js',
 		array(),
 		wp_get_theme()->get( 'Version' ),
 		true

@@ -1,0 +1,7 @@
+/**
+ * Global form field behaviors (paired with assets/js/forms.js)
+ */
+
+input[type="email"] {
+	text-transform: lowercase;
+}

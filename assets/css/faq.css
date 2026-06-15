@@ -1,6 +1,6 @@
 /**
- * FAQ accordion — Figma node 14:391
- * Desktop only.
+ * FAQ accordion — Figma nodes 14:391, 14:1074
+ * Shared card styles: pill border, plus/minus toggle, grid expand transition.
  */
 
 .faq-section {
@@ -115,15 +115,44 @@
 	padding: 10px;
 	border-radius: 500px;
 	background-color: rgba(213, 226, 248, 0.5);
-	transition: background-color 0.3s ease-in-out;
+	transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 .faq-item__icon {
+	position: relative;
 	display: block;
 	flex-shrink: 0;
 	width: 24px;
 	height: 24px;
-	transition: transform 0.3s ease-in-out;
+}
+
+.faq-item__icon-line {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	border-radius: 1px;
+	background-color: #e87f24;
+	transform: translate(-50%, -50%);
+	transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.faq-item__icon-line--horizontal {
+	width: 14px;
+	height: 2px;
+}
+
+.faq-item__icon-line--vertical {
+	width: 2px;
+	height: 14px;
+}
+
+.faq-item--expanded .faq-item__icon-wrap {
+	transform: rotate(180deg);
+}
+
+.faq-item--expanded .faq-item__icon-line--vertical {
+	opacity: 0;
+	transform: translate(-50%, -50%) scaleY(0);
 }
 
 .faq-item__panel {
@@ -155,10 +184,6 @@
 
 .faq-item--expanded .faq-item__answer {
 	opacity: 1;
-}
-
-.faq-item--expanded .faq-item__icon {
-	transform: rotate(45deg);
 }
 
 @media (max-width: 768px) {

@@ -2,42 +2,50 @@
 
 <!-- wp:html -->
 <div class="faq-page-wrapper">
-	<section class="faq-page-hero" aria-labelledby="faq-page-title">
+	<section
+		class="faq-page-hero"
+		aria-labelledby="faq-page-title"
+		style="--faq-page-hero-background-image: url('http://tourism-guide.local/wp-content/uploads/2026/06/about__hero-img.png');"
+	>
 		<div class="faq-page-hero__inner">
-			<div class="faq-page-hero__breadcrumbs">
-				<nav class="tours-grid-section__breadcrumbs animate-on-scroll" aria-label="Breadcrumb">
-					<ol class="tours-grid-section__breadcrumbs-list">
-						<li class="tours-grid-section__breadcrumbs-item">
-							<a class="tours-grid-section__breadcrumbs-link" href="{{home_url}}">Головна</a>
-						</li>
-						<li class="tours-grid-section__breadcrumbs-item tours-grid-section__breadcrumbs-separator" aria-hidden="true">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><mask id="mask0_faq_breadcrumb" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16"><rect width="16" height="16" fill="#D9D9D9"/></mask><g mask="url(#mask0_faq_breadcrumb)"><path d="M8.39992 8L5.33325 4.93333L6.26659 4L10.2666 8L6.26659 12L5.33325 11.0667L8.39992 8Z" fill="#C3C3C3"/></g></svg>
-						</li>
-						<li class="tours-grid-section__breadcrumbs-item">
-							<span class="tours-grid-section__breadcrumbs-current" aria-current="page">FAQ</span>
-						</li>
-					</ol>
-				</nav>
+			<div class="faq-page-hero__content">
+				<span class="faq-page-hero__subtitle animate-on-scroll">faq</span>
+				<h1 class="faq-page-hero__title animate-on-scroll animate-on-scroll--delay-200" id="faq-page-title">ЧАСТІ ЗАПИТАННЯ</h1>
 			</div>
-			<h1 class="faq-page-hero__title animate-on-scroll animate-on-scroll--delay-200" id="faq-page-title">ЧАСТІ ЗАПИТАННЯ</h1>
 		</div>
 	</section>
 
 	<section class="faq-page-content" aria-label="FAQ accordion">
 		<div class="faq-page-content__inner">
+			<nav class="tours-grid-section__breadcrumbs faq-page-content__breadcrumbs animate-on-scroll" aria-label="Breadcrumb">
+				<ol class="tours-grid-section__breadcrumbs-list">
+					<li class="tours-grid-section__breadcrumbs-item">
+						<a class="tours-grid-section__breadcrumbs-link" href="{{home_url}}">Головна</a>
+					</li>
+					<li class="tours-grid-section__breadcrumbs-item tours-grid-section__breadcrumbs-separator" aria-hidden="true">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><mask id="mask0_faq_breadcrumb" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16"><rect width="16" height="16" fill="#D9D9D9"/></mask><g mask="url(#mask0_faq_breadcrumb)"><path d="M8.39992 8L5.33325 4.93333L6.26659 4L10.2666 8L6.26659 12L5.33325 11.0667L8.39992 8Z" fill="#C3C3C3"/></g></svg>
+					</li>
+					<li class="tours-grid-section__breadcrumbs-item">
+						<span class="tours-grid-section__breadcrumbs-current" aria-current="page">FAQ</span>
+					</li>
+				</ol>
+			</nav>
 			<ul class="faq-accordion-container">
 				<li class="faq-item animate-on-scroll">
 					<h2 class="faq-item__heading">
 						<button type="button" class="faq-item__trigger" id="faq-page-question-1" aria-expanded="false" aria-controls="faq-page-answer-1">
-							<span class="faq-item__question">Наскільки наперед краще бронювати екскурсії?</span>
+							<span class="faq-item__question">За скільки часу краще бронювати experiences?</span>
 							<span class="faq-item__icon-wrap" aria-hidden="true">
-								<svg class="faq-item__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><mask id="faq-page-mask-1" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><rect width="24" height="24" fill="#D9D9D9"/></mask><g mask="url(#faq-page-mask-1)"><path d="M11 21V13H3V11H11V3H13V11H21V13H13V21H11Z" fill="#E87F24"/></g></svg>
+								<span class="faq-item__icon" aria-hidden="true">
+									<span class="faq-item__icon-line faq-item__icon-line--horizontal"></span>
+									<span class="faq-item__icon-line faq-item__icon-line--vertical"></span>
+								</span>
 							</span>
 						</button>
 					</h2>
 					<div class="faq-item__panel" id="faq-page-answer-1" role="region" aria-labelledby="faq-page-question-1">
 						<div class="faq-item__panel-inner">
-							<p class="faq-item__answer">Рекомендуємо бронювати за 2–4 тижні до поїздки, особливо в піковий сезон (травень–вересень). Для індивідуальних турів або груп від 4 осіб — за 1–2 місяці, щоб ми могли підібрати оптимальні дати та маршрут.</p>
+							<p class="faq-item__answer">Рекомендуємо бронювати за 2–4 тижні до поїздки, особливо в піковий сезон. Для індивідуальних experiences або груп — за 1–2 місяці, щоб ми могли підібрати оптимальні дати та маршрут.</p>
 						</div>
 					</div>
 				</li>
@@ -45,15 +53,18 @@
 				<li class="faq-item animate-on-scroll animate-on-scroll--delay-200">
 					<h2 class="faq-item__heading">
 						<button type="button" class="faq-item__trigger" id="faq-page-question-2" aria-expanded="false" aria-controls="faq-page-answer-2">
-							<span class="faq-item__question">Які умови бронювання та оплати?</span>
+							<span class="faq-item__question">Коли найкраще приїжджати на Amalfi Coast?</span>
 							<span class="faq-item__icon-wrap" aria-hidden="true">
-								<svg class="faq-item__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><mask id="faq-page-mask-2" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><rect width="24" height="24" fill="#D9D9D9"/></mask><g mask="url(#faq-page-mask-2)"><path d="M11 21V13H3V11H11V3H13V11H21V13H13V21H11Z" fill="#E87F24"/></g></svg>
+								<span class="faq-item__icon" aria-hidden="true">
+									<span class="faq-item__icon-line faq-item__icon-line--horizontal"></span>
+									<span class="faq-item__icon-line faq-item__icon-line--vertical"></span>
+								</span>
 							</span>
 						</button>
 					</h2>
 					<div class="faq-item__panel" id="faq-page-answer-2" role="region" aria-labelledby="faq-page-question-2">
 						<div class="faq-item__panel-inner">
-							<p class="faq-item__answer">Після узгодження програми вноситься передоплата 30% для підтвердження бронювання. Решта суми — за 7 днів до початку туру або в день зустрічі (за домовленістю). Оплата можлива банківським переказом, карткою або готівкою в євро.</p>
+							<p class="faq-item__answer">////////////////////</p>
 						</div>
 					</div>
 				</li>
@@ -61,15 +72,18 @@
 				<li class="faq-item animate-on-scroll animate-on-scroll--delay-400">
 					<h2 class="faq-item__heading">
 						<button type="button" class="faq-item__trigger" id="faq-page-question-3" aria-expanded="false" aria-controls="faq-page-answer-3">
-							<span class="faq-item__question">Чи організовується трансфер до місця зустрічі?</span>
+							<span class="faq-item__question">Чи підходять ваші experiences для сімей з дітьми?</span>
 							<span class="faq-item__icon-wrap" aria-hidden="true">
-								<svg class="faq-item__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><mask id="faq-page-mask-3" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><rect width="24" height="24" fill="#D9D9D9"/></mask><g mask="url(#faq-page-mask-3)"><path d="M11 21V13H3V11H11V3H13V11H21V13H13V21H11Z" fill="#E87F24"/></g></svg>
+								<span class="faq-item__icon" aria-hidden="true">
+									<span class="faq-item__icon-line faq-item__icon-line--horizontal"></span>
+									<span class="faq-item__icon-line faq-item__icon-line--vertical"></span>
+								</span>
 							</span>
 						</button>
 					</h2>
 					<div class="faq-item__panel" id="faq-page-answer-3" role="region" aria-labelledby="faq-page-question-3">
 						<div class="faq-item__panel-inner">
-							<p class="faq-item__answer">Так, ми організовуємо приватний трансфер з Неаполя, Сорренто, Салерно та сусідніх міст. Також можемо забрати вас з аеропорту Неаполя або з готелю. Вартість трансферу залежить від відстані та розраховується окремо при бронюванні.</p>
+							<p class="faq-item__answer">////////////////////</p>
 						</div>
 					</div>
 				</li>
@@ -77,15 +91,18 @@
 				<li class="faq-item animate-on-scroll">
 					<h2 class="faq-item__heading">
 						<button type="button" class="faq-item__trigger" id="faq-page-question-4" aria-expanded="false" aria-controls="faq-page-answer-4">
-							<span class="faq-item__question">Що взяти з собою в подорож?</span>
+							<span class="faq-item__question">Чи допомагаєте ви з трансферами?</span>
 							<span class="faq-item__icon-wrap" aria-hidden="true">
-								<svg class="faq-item__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><mask id="faq-page-mask-4" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><rect width="24" height="24" fill="#D9D9D9"/></mask><g mask="url(#faq-page-mask-4)"><path d="M11 21V13H3V11H11V3H13V11H21V13H13V21H11Z" fill="#E87F24"/></g></svg>
+								<span class="faq-item__icon" aria-hidden="true">
+									<span class="faq-item__icon-line faq-item__icon-line--horizontal"></span>
+									<span class="faq-item__icon-line faq-item__icon-line--vertical"></span>
+								</span>
 							</span>
 						</button>
 					</h2>
 					<div class="faq-item__panel" id="faq-page-answer-4" role="region" aria-labelledby="faq-page-question-4">
 						<div class="faq-item__panel-inner">
-							<p class="faq-item__answer">Зручне взуття для ходьби, легкий одяг із захистом від сонця, капелюх або кепку, сонцезахисний крем і воду. Для відвідування церков рекомендуємо закритий одяг (плечі та коліна прикриті). У прохолодні місяці візьміть легку куртку або светр.</p>
+							<p class="faq-item__answer">////////////////////</p>
 						</div>
 					</div>
 				</li>
@@ -93,15 +110,18 @@
 				<li class="faq-item animate-on-scroll animate-on-scroll--delay-200">
 					<h2 class="faq-item__heading">
 						<button type="button" class="faq-item__trigger" id="faq-page-question-5" aria-expanded="false" aria-controls="faq-page-answer-5">
-							<span class="faq-item__question">Яка політика скасування бронювання?</span>
+							<span class="faq-item__question">Чи всі experiences лише індивідуальні?</span>
 							<span class="faq-item__icon-wrap" aria-hidden="true">
-								<svg class="faq-item__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><mask id="faq-page-mask-5" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><rect width="24" height="24" fill="#D9D9D9"/></mask><g mask="url(#faq-page-mask-5)"><path d="M11 21V13H3V11H11V3H13V11H21V13H13V21H11Z" fill="#E87F24"/></g></svg>
+								<span class="faq-item__icon" aria-hidden="true">
+									<span class="faq-item__icon-line faq-item__icon-line--horizontal"></span>
+									<span class="faq-item__icon-line faq-item__icon-line--vertical"></span>
+								</span>
 							</span>
 						</button>
 					</h2>
 					<div class="faq-item__panel" id="faq-page-answer-5" role="region" aria-labelledby="faq-page-question-5">
 						<div class="faq-item__panel-inner">
-							<p class="faq-item__answer">Безкоштовне скасування за 14 і більше днів до туру. За 7–13 днів повертаємо 50% передоплати. Менше ніж за 7 днів передоплата не повертається, але можна перенести дату на інший день за наявності вільних місць.</p>
+							<p class="faq-item__answer">////////////////////</p>
 						</div>
 					</div>
 				</li>
@@ -109,15 +129,170 @@
 				<li class="faq-item animate-on-scroll animate-on-scroll--delay-400">
 					<h2 class="faq-item__heading">
 						<button type="button" class="faq-item__trigger" id="faq-page-question-6" aria-expanded="false" aria-controls="faq-page-answer-6">
-							<span class="faq-item__question">Чи можна подорожувати з дітьми?</span>
+							<span class="faq-item__question">Чи варто орендувати авто на Amalfi Coast?</span>
 							<span class="faq-item__icon-wrap" aria-hidden="true">
-								<svg class="faq-item__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><mask id="faq-page-mask-6" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><rect width="24" height="24" fill="#D9D9D9"/></mask><g mask="url(#faq-page-mask-6)"><path d="M11 21V13H3V11H11V3H13V11H21V13H13V21H11Z" fill="#E87F24"/></g></svg>
+								<span class="faq-item__icon" aria-hidden="true">
+									<span class="faq-item__icon-line faq-item__icon-line--horizontal"></span>
+									<span class="faq-item__icon-line faq-item__icon-line--vertical"></span>
+								</span>
 							</span>
 						</button>
 					</h2>
 					<div class="faq-item__panel" id="faq-page-answer-6" role="region" aria-labelledby="faq-page-question-6">
 						<div class="faq-item__panel-inner">
-							<p class="faq-item__answer">Так, більшість наших маршрутів підходять для сімей з дітьми від 6 років. Ми адаптуємо темп прогулянки, додаємо цікаві зупинки та коротші ділянки шляху. Для дітей молодшого віку рекомендуємо індивідуальний формат туру.</p>
+							<p class="faq-item__answer">////////////////////</p>
+						</div>
+					</div>
+				</li>
+
+				<li class="faq-item animate-on-scroll">
+					<h2 class="faq-item__heading">
+						<button type="button" class="faq-item__trigger" id="faq-page-question-7" aria-expanded="false" aria-controls="faq-page-answer-7">
+							<span class="faq-item__question">У якому місті краще зупинитися?</span>
+							<span class="faq-item__icon-wrap" aria-hidden="true">
+								<span class="faq-item__icon" aria-hidden="true">
+									<span class="faq-item__icon-line faq-item__icon-line--horizontal"></span>
+									<span class="faq-item__icon-line faq-item__icon-line--vertical"></span>
+								</span>
+							</span>
+						</button>
+					</h2>
+					<div class="faq-item__panel" id="faq-page-answer-7" role="region" aria-labelledby="faq-page-question-7">
+						<div class="faq-item__panel-inner">
+							<p class="faq-item__answer">////////////////////</p>
+						</div>
+					</div>
+				</li>
+
+				<li class="faq-item animate-on-scroll animate-on-scroll--delay-200">
+					<h2 class="faq-item__heading">
+						<button type="button" class="faq-item__trigger" id="faq-page-question-8" aria-expanded="false" aria-controls="faq-page-answer-8">
+							<span class="faq-item__question">На що звертати увагу при виборі готелю?</span>
+							<span class="faq-item__icon-wrap" aria-hidden="true">
+								<span class="faq-item__icon" aria-hidden="true">
+									<span class="faq-item__icon-line faq-item__icon-line--horizontal"></span>
+									<span class="faq-item__icon-line faq-item__icon-line--vertical"></span>
+								</span>
+							</span>
+						</button>
+					</h2>
+					<div class="faq-item__panel" id="faq-page-answer-8" role="region" aria-labelledby="faq-page-question-8">
+						<div class="faq-item__panel-inner">
+							<p class="faq-item__answer">////////////////////</p>
+						</div>
+					</div>
+				</li>
+
+				<li class="faq-item animate-on-scroll animate-on-scroll--delay-400">
+					<h2 class="faq-item__heading">
+						<button type="button" class="faq-item__trigger" id="faq-page-question-9" aria-expanded="false" aria-controls="faq-page-answer-9">
+							<span class="faq-item__question">Які пляжі найкраще підходять для дітей?</span>
+							<span class="faq-item__icon-wrap" aria-hidden="true">
+								<span class="faq-item__icon" aria-hidden="true">
+									<span class="faq-item__icon-line faq-item__icon-line--horizontal"></span>
+									<span class="faq-item__icon-line faq-item__icon-line--vertical"></span>
+								</span>
+							</span>
+						</button>
+					</h2>
+					<div class="faq-item__panel" id="faq-page-answer-9" role="region" aria-labelledby="faq-page-question-9">
+						<div class="faq-item__panel-inner">
+							<p class="faq-item__answer">////////////////////</p>
+						</div>
+					</div>
+				</li>
+
+				<li class="faq-item animate-on-scroll">
+					<h2 class="faq-item__heading">
+						<button type="button" class="faq-item__trigger" id="faq-page-question-10" aria-expanded="false" aria-controls="faq-page-answer-10">
+							<span class="faq-item__question">Чи комфортно подорожувати з коляскою?</span>
+							<span class="faq-item__icon-wrap" aria-hidden="true">
+								<span class="faq-item__icon" aria-hidden="true">
+									<span class="faq-item__icon-line faq-item__icon-line--horizontal"></span>
+									<span class="faq-item__icon-line faq-item__icon-line--vertical"></span>
+								</span>
+							</span>
+						</button>
+					</h2>
+					<div class="faq-item__panel" id="faq-page-answer-10" role="region" aria-labelledby="faq-page-question-10">
+						<div class="faq-item__panel-inner">
+							<p class="faq-item__answer">////////////////////</p>
+						</div>
+					</div>
+				</li>
+
+				<li class="faq-item animate-on-scroll animate-on-scroll--delay-200">
+					<h2 class="faq-item__heading">
+						<button type="button" class="faq-item__trigger" id="faq-page-question-11" aria-expanded="false" aria-controls="faq-page-answer-11">
+							<span class="faq-item__question">Який найближчий аеропорт?</span>
+							<span class="faq-item__icon-wrap" aria-hidden="true">
+								<span class="faq-item__icon" aria-hidden="true">
+									<span class="faq-item__icon-line faq-item__icon-line--horizontal"></span>
+									<span class="faq-item__icon-line faq-item__icon-line--vertical"></span>
+								</span>
+							</span>
+						</button>
+					</h2>
+					<div class="faq-item__panel" id="faq-page-answer-11" role="region" aria-labelledby="faq-page-question-11">
+						<div class="faq-item__panel-inner">
+							<p class="faq-item__answer">////////////////////</p>
+						</div>
+					</div>
+				</li>
+
+				<li class="faq-item animate-on-scroll animate-on-scroll--delay-400">
+					<h2 class="faq-item__heading">
+						<button type="button" class="faq-item__trigger" id="faq-page-question-12" aria-expanded="false" aria-controls="faq-page-answer-12">
+							<span class="faq-item__question">Як найкраще пересуватися узбережжям?</span>
+							<span class="faq-item__icon-wrap" aria-hidden="true">
+								<span class="faq-item__icon" aria-hidden="true">
+									<span class="faq-item__icon-line faq-item__icon-line--horizontal"></span>
+									<span class="faq-item__icon-line faq-item__icon-line--vertical"></span>
+								</span>
+							</span>
+						</button>
+					</h2>
+					<div class="faq-item__panel" id="faq-page-answer-12" role="region" aria-labelledby="faq-page-question-12">
+						<div class="faq-item__panel-inner">
+							<p class="faq-item__answer">////////////////////</p>
+						</div>
+					</div>
+				</li>
+
+				<li class="faq-item animate-on-scroll">
+					<h2 class="faq-item__heading">
+						<button type="button" class="faq-item__trigger" id="faq-page-question-13" aria-expanded="false" aria-controls="faq-page-answer-13">
+							<span class="faq-item__question">Чи повертається депозит?</span>
+							<span class="faq-item__icon-wrap" aria-hidden="true">
+								<span class="faq-item__icon" aria-hidden="true">
+									<span class="faq-item__icon-line faq-item__icon-line--horizontal"></span>
+									<span class="faq-item__icon-line faq-item__icon-line--vertical"></span>
+								</span>
+							</span>
+						</button>
+					</h2>
+					<div class="faq-item__panel" id="faq-page-answer-13" role="region" aria-labelledby="faq-page-question-13">
+						<div class="faq-item__panel-inner">
+							<p class="faq-item__answer">////////////////////</p>
+						</div>
+					</div>
+				</li>
+
+				<li class="faq-item animate-on-scroll animate-on-scroll--delay-200">
+					<h2 class="faq-item__heading">
+						<button type="button" class="faq-item__trigger" id="faq-page-question-14" aria-expanded="false" aria-controls="faq-page-answer-14">
+							<span class="faq-item__question">Як проходить бронювання?</span>
+							<span class="faq-item__icon-wrap" aria-hidden="true">
+								<span class="faq-item__icon" aria-hidden="true">
+									<span class="faq-item__icon-line faq-item__icon-line--horizontal"></span>
+									<span class="faq-item__icon-line faq-item__icon-line--vertical"></span>
+								</span>
+							</span>
+						</button>
+					</h2>
+					<div class="faq-item__panel" id="faq-page-answer-14" role="region" aria-labelledby="faq-page-question-14">
+						<div class="faq-item__panel-inner">
+							<p class="faq-item__answer">////////////////////</p>
 						</div>
 					</div>
 				</li>
