@@ -166,6 +166,7 @@ function amalfitana_render_template_placeholders( $block_content, $block ) {
 	$replacements = array(
 		'href="{{home_url}}"'  => 'href="' . esc_url( home_url( '/' ) ) . '"',
 		'href="{{tours_url}}"' => 'href="' . amalfitana_get_tours_page_url() . '"',
+		'href="{{about_url}}"' => 'href="' . amalfitana_get_about_page_url() . '"',
 	);
 
 	foreach ( $hero_media as $filename => $placeholder ) {
@@ -213,6 +214,25 @@ function amalfitana_render_header_nav_links( $block_content, $block ) {
 add_filter( 'render_block', 'amalfitana_render_header_nav_links', 10, 2 );
 
 /**
+ * Cache-busting version string for theme CSS/JS files.
+ *
+ * Uses file modification time so browsers fetch fresh assets after deploys.
+ * Falls back to time() if the file path cannot be resolved.
+ *
+ * @param string $relative_path Path relative to the active theme directory (e.g. '/assets/css/animations.css').
+ * @return string
+ */
+function amalfitana_get_asset_version( $relative_path ) {
+	$file_path = get_stylesheet_directory() . $relative_path;
+
+	if ( file_exists( $file_path ) ) {
+		return (string) filemtime( $file_path );
+	}
+
+	return (string) time();
+}
+
+/**
  * Enqueue Google Fonts on the frontend and in the block editor.
  */
 function amalfitana_enqueue_google_fonts() {
@@ -236,91 +256,91 @@ function amalfitana_enqueue_theme_styles() {
 		'amalfitana-buttons',
 		get_template_directory_uri() . '/assets/css/buttons.css',
 		array( 'amalfitana-google-fonts' ),
-		wp_get_theme()->get( 'Version' )
+		amalfitana_get_asset_version( '/assets/css/buttons.css' )
 	);
 
 	wp_enqueue_style(
 		'amalfitana-tour-card',
 		get_template_directory_uri() . '/assets/css/tour-card.css',
 		array( 'amalfitana-google-fonts', 'amalfitana-buttons' ),
-		wp_get_theme()->get( 'Version' )
+		amalfitana_get_asset_version( '/assets/css/tour-card.css' )
 	);
 
 	wp_enqueue_style(
 		'amalfitana-faq',
 		get_template_directory_uri() . '/assets/css/faq.css',
 		array( 'amalfitana-google-fonts' ),
-		wp_get_theme()->get( 'Version' )
+		amalfitana_get_asset_version( '/assets/css/faq.css' )
 	);
 
 	wp_enqueue_style(
 		'amalfitana-subscribe',
 		get_template_directory_uri() . '/assets/css/subscribe.css',
 		array( 'amalfitana-google-fonts', 'amalfitana-buttons' ),
-		wp_get_theme()->get( 'Version' )
+		amalfitana_get_asset_version( '/assets/css/subscribe.css' )
 	);
 
 	wp_enqueue_style(
 		'amalfitana-forms',
 		get_template_directory_uri() . '/assets/css/forms.css',
 		array(),
-		wp_get_theme()->get( 'Version' )
+		amalfitana_get_asset_version( '/assets/css/forms.css' )
 	);
 
 	wp_enqueue_style(
 		'amalfitana-footer',
 		get_template_directory_uri() . '/assets/css/footer.css',
 		array( 'amalfitana-google-fonts' ),
-		wp_get_theme()->get( 'Version' )
+		amalfitana_get_asset_version( '/assets/css/footer.css' )
 	);
 
 	wp_enqueue_style(
 		'amalfitana-animations',
 		get_template_directory_uri() . '/assets/css/animations.css',
 		array(),
-		wp_get_theme()->get( 'Version' )
+		amalfitana_get_asset_version( '/assets/css/animations.css' )
 	);
 
 	wp_enqueue_style(
 		'amalfitana-testimonial-card',
 		get_template_directory_uri() . '/assets/css/testimonial-card.css',
 		array( 'amalfitana-google-fonts' ),
-		wp_get_theme()->get( 'Version' )
+		amalfitana_get_asset_version( '/assets/css/testimonial-card.css' )
 	);
 
 	wp_enqueue_style(
 		'amalfitana-reviews-grid',
 		get_template_directory_uri() . '/assets/css/reviews-grid.css',
 		array( 'amalfitana-google-fonts', 'amalfitana-testimonial-card', 'amalfitana-animations' ),
-		wp_get_theme()->get( 'Version' )
+		amalfitana_get_asset_version( '/assets/css/reviews-grid.css' )
 	);
 
 	wp_enqueue_style(
 		'amalfitana-tours-hero',
 		get_template_directory_uri() . '/assets/css/tours-hero.css',
 		array( 'amalfitana-google-fonts' ),
-		wp_get_theme()->get( 'Version' )
+		amalfitana_get_asset_version( '/assets/css/tours-hero.css' )
 	);
 
 	wp_enqueue_style(
 		'amalfitana-about-hero',
 		get_template_directory_uri() . '/assets/css/about-hero.css',
 		array( 'amalfitana-google-fonts' ),
-		wp_get_theme()->get( 'Version' )
+		amalfitana_get_asset_version( '/assets/css/about-hero.css' )
 	);
 
 	wp_enqueue_style(
 		'amalfitana-reviews-hero',
 		get_template_directory_uri() . '/assets/css/reviews-hero.css',
 		array( 'amalfitana-google-fonts' ),
-		wp_get_theme()->get( 'Version' )
+		amalfitana_get_asset_version( '/assets/css/reviews-hero.css' )
 	);
 
 	wp_enqueue_style(
 		'amalfitana-tours-grid',
 		get_template_directory_uri() . '/assets/css/tours-grid.css',
 		array( 'amalfitana-google-fonts', 'amalfitana-tour-card' ),
-		wp_get_theme()->get( 'Version' )
+		amalfitana_get_asset_version( '/assets/css/tours-grid.css' )
 	);
 
 	if ( is_page_template( 'page-tour-detail' ) ) {
@@ -328,14 +348,14 @@ function amalfitana_enqueue_theme_styles() {
 			'amalfitana-tour-detail-hero',
 			get_template_directory_uri() . '/assets/css/tour-detail-hero.css',
 			array( 'amalfitana-google-fonts', 'amalfitana-animations', 'amalfitana-tours-grid' ),
-			wp_get_theme()->get( 'Version' )
+			amalfitana_get_asset_version( '/assets/css/tour-detail-hero.css' )
 		);
 
 		wp_enqueue_style(
 			'amalfitana-tour-detail-content',
 			get_template_directory_uri() . '/assets/css/tour-detail-content.css',
 			array( 'amalfitana-google-fonts', 'amalfitana-animations', 'amalfitana-buttons' ),
-			wp_get_theme()->get( 'Version' )
+			amalfitana_get_asset_version( '/assets/css/tour-detail-content.css' )
 		);
 	}
 
@@ -344,7 +364,7 @@ function amalfitana_enqueue_theme_styles() {
 			'amalfitana-faq-page',
 			get_template_directory_uri() . '/assets/css/faq-page.css',
 			array( 'amalfitana-google-fonts', 'amalfitana-faq', 'amalfitana-animations', 'amalfitana-tours-grid' ),
-			wp_get_theme()->get( 'Version' )
+			amalfitana_get_asset_version( '/assets/css/faq-page.css' )
 		);
 	}
 
@@ -353,14 +373,14 @@ function amalfitana_enqueue_theme_styles() {
 			'amalfitana-contacts-page',
 			get_template_directory_uri() . '/assets/css/contacts-page.css',
 			array( 'amalfitana-google-fonts', 'amalfitana-animations', 'amalfitana-tours-grid', 'amalfitana-buttons', 'amalfitana-footer' ),
-			wp_get_theme()->get( 'Version' )
+			amalfitana_get_asset_version( '/assets/css/contacts-page.css' )
 		);
 
 		wp_enqueue_script(
 			'amalfitana-contacts-form',
 			get_template_directory_uri() . '/assets/js/contacts-form.js',
 			array(),
-			wp_get_theme()->get( 'Version' ),
+			amalfitana_get_asset_version( '/assets/js/contacts-form.js' ),
 			true
 		);
 	}
@@ -376,7 +396,7 @@ function amalfitana_enqueue_theme_scripts() {
 		'amalfitana-animations',
 		get_template_directory_uri() . '/assets/js/animations.js',
 		array(),
-		wp_get_theme()->get( 'Version' ),
+		amalfitana_get_asset_version( '/assets/js/animations.js' ),
 		true
 	);
 
@@ -384,7 +404,7 @@ function amalfitana_enqueue_theme_scripts() {
 		'amalfitana-faq',
 		get_template_directory_uri() . '/assets/js/faq.js',
 		array(),
-		wp_get_theme()->get( 'Version' ),
+		amalfitana_get_asset_version( '/assets/js/faq.js' ),
 		true
 	);
 
@@ -392,7 +412,7 @@ function amalfitana_enqueue_theme_scripts() {
 		'amalfitana-subscribe',
 		get_template_directory_uri() . '/assets/js/subscribe.js',
 		array(),
-		wp_get_theme()->get( 'Version' ),
+		amalfitana_get_asset_version( '/assets/js/subscribe.js' ),
 		true
 	);
 
@@ -400,7 +420,7 @@ function amalfitana_enqueue_theme_scripts() {
 		'amalfitana-forms',
 		get_template_directory_uri() . '/assets/js/forms.js',
 		array(),
-		wp_get_theme()->get( 'Version' ),
+		amalfitana_get_asset_version( '/assets/js/forms.js' ),
 		true
 	);
 
@@ -409,7 +429,7 @@ function amalfitana_enqueue_theme_scripts() {
 			'amalfitana-tour-checkout',
 			get_template_directory_uri() . '/assets/js/tour-checkout.js',
 			array(),
-			wp_get_theme()->get( 'Version' ),
+			amalfitana_get_asset_version( '/assets/js/tour-checkout.js' ),
 			true
 		);
 	}
@@ -434,7 +454,7 @@ function amalfitana_enqueue_theme_scripts() {
 			'amalfitana-about-testimonials',
 			get_template_directory_uri() . '/assets/js/about-testimonials.js',
 			array( 'swiper' ),
-			wp_get_theme()->get( 'Version' ),
+			amalfitana_get_asset_version( '/assets/js/about-testimonials.js' ),
 			true
 		);
 	}

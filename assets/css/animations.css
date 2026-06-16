@@ -6,6 +6,15 @@
 	opacity: 0;
 	transform: translateY(30px);
 	transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+	pointer-events: auto;
+}
+
+.tours-slider-container,
+.photos-slider-container,
+.people-slider-container,
+.custom-slider-viewport,
+.photos-slider-viewport {
+	pointer-events: auto;
 }
 
 .animate-on-scroll.is-animated {

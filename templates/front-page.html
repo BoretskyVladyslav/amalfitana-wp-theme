@@ -377,6 +377,8 @@
 
 	.tours-slider-container {
 		position: relative;
+		width: 100%;
+		min-width: 0;
 		max-width: var(--wp--custom--layout--content-size, 1170px);
 		margin: 0 auto;
 		padding-bottom: 40px;
@@ -384,6 +386,8 @@
 
 	.custom-slider-viewport {
 		overflow: visible;
+		width: 100%;
+		min-width: 0;
 	}
 
 	.custom-slider-track {
@@ -490,8 +494,23 @@
 			text-align: center;
 		}
 
+		.tours-slider-container {
+			width: 100%;
+			min-width: 0;
+			overflow: hidden;
+			padding-inline: 20px;
+			box-sizing: border-box;
+		}
+
+		.custom-slider-viewport {
+			overflow: hidden;
+			width: 100%;
+			min-width: 0;
+		}
+
 		.custom-slider-track {
 			gap: 15px;
+			touch-action: pan-y;
 		}
 
 		.tours-slider-prev,
@@ -507,7 +526,7 @@
 		<h2 class="tours-section__title animate-on-scroll animate-on-scroll--delay-200">Авторські досвіди подорожей</h2>
 	</header>
 
-	<div class="tours-slider-container animate-on-scroll animate-on-scroll--delay-200">
+	<div class="tours-slider-container">
 		<div class="custom-slider-viewport">
 			<div class="custom-slider-track">
 		<div class="swiper-slide">
@@ -1174,7 +1193,7 @@
 				<p class="animate-on-scroll">Я прожила 12 років в Одесі, стала мамою двох чудових дітей, спробувала багато професій і завжди шукала себе. А потім війна змінила все. Я опинилася в Італії з дітьми, з валізами тривог і без чітких планів на завтра.</p>
 			</div>
 
-			<button type="button" class="btn btn--outline">Більше про мене <svg class="btn__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="10" viewBox="0 0 13 10" fill="none" aria-hidden="true"><path d="M7.78854 9.42292L6.91021 8.51917L10.0929 5.33646H0V4.08646H10.0929L6.91021 0.90375L7.78854 0L12.5 4.71146L7.78854 9.42292Z" /></svg></button>
+			<a class="btn btn--outline" href="{{about_url}}">Більше про мене <svg class="btn__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="10" viewBox="0 0 13 10" fill="none" aria-hidden="true"><path d="M7.78854 9.42292L6.91021 8.51917L10.0929 5.33646H0V4.08646H10.0929L6.91021 0.90375L7.78854 0L12.5 4.71146L7.78854 9.42292Z" /></svg></a>
 		</div>
 </section>
 <!-- /wp:html -->
@@ -1379,6 +1398,8 @@
 	}
 
 	.photos-slider-container {
+		width: 100%;
+		min-width: 0;
 		max-width: 1170px;
 		margin: 50px auto 0;
 		position: relative;
@@ -1386,6 +1407,8 @@
 
 	.photos-slider-viewport {
 		overflow: visible;
+		width: 100%;
+		min-width: 0;
 	}
 
 	.photos-slider-track {
@@ -1576,6 +1599,7 @@
 		.photos-slider-container {
 			overflow: hidden;
 			width: 100%;
+			min-width: 0;
 			max-width: none;
 			margin-top: 40px;
 			padding: 0;
@@ -1583,6 +1607,8 @@
 
 		.photos-slider-viewport {
 			overflow: hidden;
+			width: 100%;
+			min-width: 0;
 		}
 
 		.photos-slider-track {
@@ -1591,10 +1617,9 @@
 			height: auto !important;
 			gap: 15px;
 			padding: 0;
-			animation: marquee 20s linear infinite;
-			transform: none !important;
-			cursor: default;
-			touch-action: auto;
+			animation: none !important;
+			cursor: grab;
+			touch-action: pan-y;
 			will-change: transform;
 		}
 
@@ -1618,15 +1643,6 @@
 			margin-bottom: 0 !important;
 		}
 
-		@keyframes marquee {
-			0% {
-				transform: translateX(0);
-			}
-
-			100% {
-				transform: translateX(-50%);
-			}
-		}
 	}
 </style>
 
@@ -1699,12 +1715,6 @@ function initCustomSlider(trackSelector, prevBtnSelector, nextBtnSelector, dotsC
     return;
   }
 
-  if (options.nativeScroll === 'mobile' && window.matchMedia('(max-width: 768px)').matches) {
-    track.classList.add('photos-slider-track--native');
-    return;
-  }
-
-  track.classList.remove('photos-slider-track--native');
   track.style.animation = '';
 
   const VISIBLE_CLONES = 2;
@@ -1870,18 +1880,24 @@ function initCustomSlider(trackSelector, prevBtnSelector, nextBtnSelector, dotsC
     });
   }
 
+  let dragStartY = 0;
+  let isHorizontalDrag = false;
+  const DRAG_AXIS_THRESHOLD = 10;
+
   track.addEventListener('pointerdown', function (event) {
     if (isAnimating) {
       return;
     }
 
-    event.preventDefault();
+    if (event.target.closest('a, button')) {
+      return;
+    }
+
     isDragging = true;
+    isHorizontalDrag = false;
     dragStartX = event.clientX;
+    dragStartY = event.clientY;
     dragDelta = 0;
-    track.classList.add('is-dragging');
-    track.classList.remove('animate');
-    track.setPointerCapture(event.pointerId);
   });
 
   track.addEventListener('pointermove', function (event) {
@@ -1889,7 +1905,27 @@ function initCustomSlider(trackSelector, prevBtnSelector, nextBtnSelector, dotsC
       return;
     }
 
-    dragDelta = event.clientX - dragStartX;
+    const deltaX = event.clientX - dragStartX;
+    const deltaY = event.clientY - dragStartY;
+
+    if (!isHorizontalDrag) {
+      if (Math.abs(deltaX) < DRAG_AXIS_THRESHOLD && Math.abs(deltaY) < DRAG_AXIS_THRESHOLD) {
+        return;
+      }
+
+      if (Math.abs(deltaY) >= Math.abs(deltaX)) {
+        isDragging = false;
+        return;
+      }
+
+      isHorizontalDrag = true;
+      track.classList.add('is-dragging');
+      track.classList.remove('animate');
+      track.setPointerCapture(event.pointerId);
+    }
+
+    event.preventDefault();
+    dragDelta = deltaX;
     track.style.transform = 'translateX(' + (currentTranslate + dragDelta) + 'px)';
   });
 
@@ -1899,6 +1935,12 @@ function initCustomSlider(trackSelector, prevBtnSelector, nextBtnSelector, dotsC
     }
 
     isDragging = false;
+
+    if (!isHorizontalDrag) {
+      return;
+    }
+
+    isHorizontalDrag = false;
     track.classList.remove('is-dragging');
 
     if (Math.abs(dragDelta) > DRAG_THRESHOLD) {
@@ -1923,8 +1965,8 @@ function initCustomSlider(trackSelector, prevBtnSelector, nextBtnSelector, dotsC
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  initCustomSlider('.custom-slider-track', '.tours-slider-prev', '.tours-slider-next', '.tours-slider-pagination', '.tour-card', 30);
-  initCustomSlider('.photos-slider-track', '.photos-prev', '.photos-next', '.photos-pagination', '.photo-slide:not([aria-hidden="true"])', 20, { nativeScroll: 'mobile' });
+  initCustomSlider('.custom-slider-track', '.tours-slider-prev', '.tours-slider-next', '.tours-slider-pagination', '.tour-card', 30, { centerActive: 'mobile' });
+  initCustomSlider('.photos-slider-track', '.photos-prev', '.photos-next', '.photos-pagination', '.photo-slide:not([aria-hidden="true"])', 20, { centerActive: 'mobile' });
   initCustomSlider('.people-slider-track', null, null, '.people-pagination', '.review-card', 30, { centerActive: 'mobile' });
 });
 </script>
@@ -2026,6 +2068,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		position: relative;
 		z-index: 2;
 		width: 75%;
+		min-width: 0;
 		margin-top: 10px;
 		margin-left: auto;
 		margin-right: 0;
@@ -2145,6 +2188,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 		.people-slider-container {
 			width: 100%;
+			min-width: 0;
 			max-width: none;
 			margin-top: 0;
 			margin-left: auto;
@@ -2306,7 +2350,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			<h2 class="people-section__title section-title animate-on-scroll animate-on-scroll--delay-200">пишуть про мене</h2>
 		</header>
 
-		<div class="people-slider-container animate-on-scroll animate-on-scroll--delay-200">
+		<div class="people-slider-container">
 			<div class="people-slider-track">
 				<article class="review-card">
 					<div class="review-card__message-box">
