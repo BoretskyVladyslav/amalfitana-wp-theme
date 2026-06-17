@@ -405,12 +405,37 @@ function amalfitana_enqueue_theme_scripts() {
 		true
 	);
 
+	wp_enqueue_script(
+		'amalfitana-booking-popup',
+		get_template_directory_uri() . '/assets/js/booking-popup.js',
+		array(),
+		wp_get_theme()->get( 'Version' ),
+		true
+	);
+
 	if ( is_page_template( 'page-tour-detail' ) ) {
 		wp_enqueue_script(
 			'amalfitana-tour-checkout',
 			get_template_directory_uri() . '/assets/js/tour-checkout.js',
 			array(),
 			wp_get_theme()->get( 'Version' ),
+			true
+		);
+	}
+
+	if ( is_front_page() ) {
+		wp_enqueue_style(
+			'swiper',
+			'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css',
+			array(),
+			'11.2.10'
+		);
+
+		wp_enqueue_script(
+			'swiper',
+			'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js',
+			array(),
+			'11.2.10',
 			true
 		);
 	}
