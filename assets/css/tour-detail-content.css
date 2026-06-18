@@ -84,12 +84,15 @@
 	border: 1px solid #f2f2f2;
 	border-radius: 8px;
 	background-color: #ffffff;
+	overflow: visible;
 }
 
+.tour-detail-content__metric > svg,
 .tour-detail-content__metric-icon {
 	flex-shrink: 0;
 	width: 24px;
 	height: 24px;
+	overflow: visible;
 }
 
 .tour-detail-content__metric-icon path {
@@ -126,6 +129,12 @@
 	display: flex;
 	align-items: center;
 	gap: 10px;
+	min-width: 0;
+}
+
+.tour-detail-content__metric-value-row .tour-detail-content__metric-value {
+	flex: 1 1 auto;
+	min-width: 0;
 }
 
 .tour-detail-content__metric-info {
@@ -136,6 +145,87 @@
 
 .tour-detail-content__metric-info path {
 	fill: #e87f24;
+}
+
+.tour-detail-content__metric-tooltip {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	flex-shrink: 0;
+}
+
+.tour-detail-content__metric-tooltip-trigger {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	background: transparent;
+	cursor: help;
+	line-height: 0;
+}
+
+.tour-detail-content__metric-tooltip-trigger:focus-visible {
+	outline: 2px solid #e87f24;
+	outline-offset: 2px;
+	border-radius: 50%;
+}
+
+.tour-detail-content__metric-tooltip-bubble {
+	position: absolute;
+	bottom: calc(100% + 12px);
+	left: 50%;
+	z-index: 30;
+	width: max-content;
+	max-width: min(280px, 70vw);
+	padding: 12px 14px;
+	border-radius: 12px;
+	background: #2e3c52;
+	color: #ffffff;
+	font-family: var(--wp--preset--font-family--inter), Inter, sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.45;
+	text-align: left;
+	box-shadow: 0 12px 32px rgba(46, 60, 82, 0.24);
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transform: translateX(-50%) translateY(6px);
+	transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.tour-detail-content__metric-tooltip-bubble::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	border: 7px solid transparent;
+	border-top-color: #2e3c52;
+}
+
+.tour-detail-content__metric-tooltip-bubble p {
+	margin: 0 0 8px;
+	color: #ffffff;
+}
+
+.tour-detail-content__metric-tooltip-bubble p:last-child {
+	margin-bottom: 0;
+}
+
+.tour-detail-content__metric-tooltip-bubble ul,
+.tour-detail-content__metric-tooltip-bubble ol {
+	margin: 0;
+	padding-left: 18px;
+}
+
+.tour-detail-content__metric-tooltip:hover .tour-detail-content__metric-tooltip-bubble,
+.tour-detail-content__metric-tooltip:focus-within .tour-detail-content__metric-tooltip-bubble {
+	opacity: 1;
+	visibility: visible;
+	transform: translateX(-50%) translateY(0);
 }
 
 /* ── Main column typography (Figma 14:628, 14:629, 202:1113) ── */
@@ -162,6 +252,17 @@
 	display: flex;
 	flex-direction: column;
 	gap: 0;
+}
+
+.tour-detail-content__prose > .wp-block-html,
+.tour-detail-content__prose > .wp-block-group {
+	margin: 0;
+}
+
+.tour-detail-content__prose .wp-block-html > .tour-detail-content__section,
+.tour-detail-content__prose .tour-detail-content__section,
+.tour-detail-content__prose .tour-detail-content__callout {
+	width: 100%;
 }
 
 .tour-detail-content__prose p {

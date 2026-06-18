@@ -1,0 +1,281 @@
+<!-- wp:html -->
+<style>
+	/* Sticky requires visible overflow on every ancestor — override WP core. */
+	html,
+	body,
+	.wp-site-blocks,
+	main.wp-block-group,
+	.is-layout-constrained,
+	.entry-content {
+		overflow: visible !important;
+		overflow-x: clip !important;
+	}
+
+	.about-section {
+		max-width: 1170px !important;
+		width: 100% !important;
+		margin: 80px 0px auto 100px !important;
+		padding: 0 20px !important;
+		box-sizing: border-box !important;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 60px;
+		align-items: stretch;
+		overflow: visible !important;
+	}
+
+	.about__media-col {
+		width: 100%;
+		min-width: 0;
+		align-self: stretch;
+		display: flex;
+		flex-direction: column;
+		overflow: visible !important;
+	}
+
+	.about-section__image,
+	.about__media {
+		position: relative;
+		width: 100%;
+		overflow: hidden;
+		border-radius: 20px;
+	}
+
+	.about-section__image img,
+	.about-section__image video,
+	.about-section__image .about__media-element,
+	.about-section__image .about__media-video {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: inherit;
+	}
+
+	.about__media-video {
+		pointer-events: none;
+	}
+
+	.about-section__header {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		margin-bottom: 40px;
+	}
+
+	.about-section__subtitle {
+		margin: 0;
+		font-family: var(--wp--preset--font-family--imperial-script);
+		font-size: 3.75rem;
+		font-weight: 400;
+		line-height: 1;
+		color: #FFC81E;
+		text-transform: lowercase;
+	}
+
+	.about-section__title {
+		margin: 0;
+		font-family: var(--wp--preset--font-family--inter);
+		font-size: 3rem;
+		font-weight: 600;
+		line-height: 1.2;
+		color: var(--wp--preset--color--foreground);
+		text-transform: uppercase;
+	}
+
+	.about-features {
+		display: flex;
+		gap: 20px;
+		margin-bottom: 40px;
+	}
+
+	.about-card {
+		flex: 1;
+		background: #fff;
+		border-radius: 18px;
+		box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+		padding: 20px;
+	}
+
+	.about-card__number {
+		width: 50px;
+		height: 50px;
+		border: 1px solid #F5E6D3;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--wp--preset--color--primary);
+		font-family: var(--wp--preset--font-family--imperial-script);
+		font-size: 24px;
+		margin-bottom: 15px;
+	}
+
+	.about-card__title {
+		margin: 0 0 10px;
+		font-family: var(--wp--preset--font-family--inter);
+		font-size: 1.125rem;
+		font-weight: 400;
+		line-height: 1.3;
+		color: var(--wp--preset--color--foreground);
+	}
+
+	.about-card__description {
+		margin: 0;
+		font-family: var(--wp--preset--font-family--inter);
+		font-size: 1rem;
+		font-weight: 400;
+		line-height: 1.3;
+		color: var(--wp--preset--color--muted);
+	}
+
+	.about-bio {
+		border-left: 2px solid #FFC81E;
+		padding-left: 25px;
+		margin-bottom: 30px;
+	}
+
+	.about-bio p {
+		margin: 0 0 1em;
+		font-family: var(--wp--preset--font-family--inter);
+		font-size: 0.875rem;
+		font-weight: 400;
+		line-height: 1.6;
+		color: var(--wp--preset--color--muted);
+	}
+
+	.about-bio p:last-child {
+		margin-bottom: 0;
+	}
+
+	@media (min-width: 769px) {
+		.about-section {
+			margin: 80px 0 auto 100px !important;
+			grid-template-columns: 1.5fr 1fr;
+			gap: 80px;
+			align-items: stretch !important;
+		}
+
+		.about__media-col {
+			align-self: stretch;
+			min-height: 100%;
+		}
+
+		.about-section__image.about__media,
+		.about__media {
+			position: sticky !important;
+			top: 100px !important;
+			height: 60vh !important;
+			max-height: 60vh !important;
+			align-self: start;
+			z-index: 10;
+			aspect-ratio: 3 / 4;
+		}
+
+		.about-section__image img,
+		.about-section__image video,
+		.about-section__image .about__media-element,
+		.about-section__image .about__media-video {
+			height: 100%;
+			max-height: 60vh;
+		}
+
+		.about-section__content {
+			min-width: 0;
+			width: 100%;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.about-section {
+			margin: 40px auto !important;
+			width: 100% !important;
+			grid-template-columns: 1fr !important;
+			padding: 0 20px !important;
+			gap: 30px;
+		}
+
+		.about-section__header {
+			align-items: center;
+			width: 100%;
+			margin-bottom: 30px;
+			text-align: center;
+		}
+
+		.about-section__subtitle,
+		.about-section__title {
+			width: 100%;
+			text-align: center;
+		}
+
+		.about-section__image,
+		.about__media {
+			position: relative !important;
+			top: auto !important;
+			height: auto !important;
+			max-height: none !important;
+			width: 100%;
+			margin: 0 auto;
+		}
+
+		.about-section__image img,
+		.about-section__image video,
+		.about-section__image .about__media-video {
+			height: auto;
+			max-height: 70vw;
+			border-radius: 20px;
+			object-fit: cover;
+		}
+
+		.about-section__title {
+			font-size: 2rem;
+		}
+
+		.about-features {
+			flex-direction: column;
+			gap: 15px;
+			margin-bottom: 30px;
+		}
+
+		.about-bio {
+			padding-left: 15px;
+			margin-bottom: 25px;
+		}
+	}
+</style>
+
+<section class="about-section" aria-label="About Me">
+		<div class="about__media-col">
+			<div class="about-section__image about__media">
+				{{about_media}}
+			</div>
+		</div>
+
+		<div class="about-section__content">
+			<header class="about-section__header">
+				<p class="about-section__subtitle animate-on-scroll">about me</p>
+				<h2 class="about-section__title animate-on-scroll animate-on-scroll--delay-200">{{about_section_title}}</h2>
+			</header>
+
+			<div class="about-features">
+				<article class="about-card animate-on-scroll">
+					<div class="about-card__number">01</div>
+					<h3 class="about-card__title">{{about_card_1_title}}</h3>
+					<p class="about-card__description">{{about_card_1_text}}</p>
+				</article>
+
+				<article class="about-card animate-on-scroll animate-on-scroll--delay-200">
+					<div class="about-card__number">02</div>
+					<h3 class="about-card__title">{{about_card_2_title}}</h3>
+					<p class="about-card__description">{{about_card_2_text}}</p>
+				</article>
+			</div>
+
+			<div class="about-bio">
+				{{about_bio_content}}
+			</div>
+
+			<a class="btn btn--outline" href="{{about_url}}">{{about_button_label}} <svg class="btn__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="10" viewBox="0 0 13 10" fill="none" aria-hidden="true"><path d="M7.78854 9.42292L6.91021 8.51917L10.0929 5.33646H0V4.08646H10.0929L6.91021 0.90375L7.78854 0L12.5 4.71146L7.78854 9.42292Z" /></svg></a>
+		</div>
+</section>
+<!-- /wp:html -->

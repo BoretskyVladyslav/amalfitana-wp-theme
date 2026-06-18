@@ -9,6 +9,174 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$amalfitana_acf_fields_file = get_template_directory() . '/inc/acf-fields.php';
+if ( file_exists( $amalfitana_acf_fields_file ) ) {
+	require_once $amalfitana_acf_fields_file;
+}
+
+$amalfitana_front_page_acf_file = get_template_directory() . '/inc/front-page-acf.php';
+if ( file_exists( $amalfitana_front_page_acf_file ) ) {
+	require_once $amalfitana_front_page_acf_file;
+}
+
+$amalfitana_cpt_registration_file = get_template_directory() . '/inc/cpt-registration.php';
+if ( file_exists( $amalfitana_cpt_registration_file ) ) {
+	require_once $amalfitana_cpt_registration_file;
+}
+
+$amalfitana_experience_templates_file = get_template_directory() . '/inc/experience-templates.php';
+if ( file_exists( $amalfitana_experience_templates_file ) ) {
+	require_once $amalfitana_experience_templates_file;
+}
+
+$amalfitana_experience_editor_template_file = get_template_directory() . '/inc/experience-editor-template.php';
+if ( file_exists( $amalfitana_experience_editor_template_file ) ) {
+	require_once $amalfitana_experience_editor_template_file;
+}
+
+$amalfitana_experience_seed_file = get_template_directory() . '/inc/experience-seed.php';
+if ( file_exists( $amalfitana_experience_seed_file ) ) {
+	require_once $amalfitana_experience_seed_file;
+}
+
+/**
+ * Register theme supports.
+ */
+function amalfitana_theme_setup() {
+	add_theme_support( 'post-thumbnails', array( 'post', 'page', 'experience', 'testimonial' ) );
+}
+add_action( 'after_setup_theme', 'amalfitana_theme_setup' );
+
+/**
+ * Move testimonial Featured Image into the main column with a clear Ukrainian label.
+ */
+function amalfitana_reposition_testimonial_thumbnail_meta_box() {
+	remove_meta_box( 'postimagediv', 'testimonial', 'side' );
+
+	add_meta_box(
+		'postimagediv',
+		'Аватарка клієнта (Фото)',
+		'post_thumbnail_meta_box',
+		'testimonial',
+		'normal',
+		'high'
+	);
+}
+add_action( 'add_meta_boxes', 'amalfitana_reposition_testimonial_thumbnail_meta_box', 20 );
+
+/**
+ * Custom title placeholders for FAQ and testimonial post types.
+ *
+ * @param string  $title Default placeholder text.
+ * @param WP_Post $post  Current post object.
+ * @return string
+ */
+function amalfitana_custom_enter_title_here( $title, $post ) {
+	if ( ! $post instanceof WP_Post ) {
+		return $title;
+	}
+
+	if ( 'faq' === $post->post_type ) {
+		return 'Введіть питання...';
+	}
+
+	if ( 'testimonial' === $post->post_type ) {
+		return "Ім'я автора відгуку...";
+	}
+
+	return $title;
+}
+add_filter( 'enter_title_here', 'amalfitana_custom_enter_title_here', 10, 2 );
+
+/**
+ * Remove cluttering native meta boxes from the Experience edit screen.
+ */
+function amalfitana_cleanup_experience_admin_meta_boxes() {
+	remove_meta_box( 'slugdiv', 'experience', 'normal' );
+}
+add_action( 'add_meta_boxes', 'amalfitana_cleanup_experience_admin_meta_boxes', 99 );
+
+/**
+ * Register the Experience custom post type.
+ */
+function amalfitana_register_experience_post_type() {
+	$labels = array(
+		'name'               => 'Досвіди',
+		'singular_name'      => 'Досвід',
+		'menu_name'          => 'Досвіди',
+		'name_admin_bar'     => 'Досвід',
+		'add_new'            => 'Додати досвід',
+		'add_new_item'       => 'Додати досвід',
+		'edit_item'          => 'Редагувати досвід',
+		'new_item'           => 'Новий досвід',
+		'view_item'          => 'Переглянути досвід',
+		'view_items'         => 'Переглянути досвіди',
+		'search_items'       => 'Шукати досвіди',
+		'not_found'          => 'Досвідів не знайдено',
+		'not_found_in_trash' => 'У кошику досвідів не знайдено',
+		'all_items'          => 'Всі досвіди',
+	);
+
+	register_post_type(
+		'experience',
+		array(
+			'labels'              => $labels,
+			'public'              => true,
+			'publicly_queryable'  => true,
+			'show_ui'             => true,
+			'show_in_menu'        => true,
+			'show_in_nav_menus'   => true,
+			'show_in_admin_bar'   => true,
+			'has_archive'         => false,
+			'rewrite'             => array(
+				'slug'       => 'experiences',
+				'with_front' => false,
+			),
+			'supports'            => array( 'title', 'thumbnail' ),
+			'menu_icon'           => 'dashicons-location',
+			'menu_position'       => 26,
+			'capability_type'     => 'post',
+			'map_meta_cap'        => true,
+			'show_in_rest'        => false,
+		)
+	);
+}
+// Priority 20 ensures registration runs after ACF (init:5) and cannot be overwritten.
+add_action( 'init', 'amalfitana_register_experience_post_type', 20 );
+
+/**
+ * Use the classic PHP single template for experiences (not the block HTML template).
+ *
+ * @param string $template Current template path.
+ * @return string
+ */
+function amalfitana_force_experience_php_template( $template ) {
+	if ( is_singular( 'experience' ) ) {
+		$php_template = get_template_directory() . '/single-experience.php';
+
+		if ( file_exists( $php_template ) ) {
+			return $php_template;
+		}
+	}
+
+	return $template;
+}
+add_filter( 'template_include', 'amalfitana_force_experience_php_template', 99 );
+
+/**
+ * Rebuild permalinks once when this theme is activated.
+ */
+function amalfitana_flush_rewrite_rules_on_theme_switch() {
+	amalfitana_register_experience_post_type();
+
+	if ( function_exists( 'amalfitana_register_content_post_types' ) ) {
+		amalfitana_register_content_post_types();
+	}
+
+	flush_rewrite_rules();
+}
+add_action( 'after_switch_theme', 'amalfitana_flush_rewrite_rules_on_theme_switch' );
+
 /**
  * Create theme pages once if they do not exist yet.
  */
@@ -324,7 +492,7 @@ function amalfitana_enqueue_theme_styles() {
 		wp_get_theme()->get( 'Version' )
 	);
 
-	if ( is_page_template( 'page-tour-detail' ) ) {
+	if ( is_page_template( 'page-tour-detail' ) || is_singular( 'experience' ) ) {
 		wp_enqueue_style(
 			'amalfitana-tour-detail-hero',
 			get_template_directory_uri() . '/assets/css/tour-detail-hero.css',
@@ -370,6 +538,25 @@ add_action( 'wp_enqueue_scripts', 'amalfitana_enqueue_theme_styles' );
 add_action( 'enqueue_block_editor_assets', 'amalfitana_enqueue_theme_styles' );
 
 /**
+ * Load tour detail styles in the block editor for Experience posts.
+ */
+function amalfitana_enqueue_experience_editor_styles() {
+	$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+
+	if ( ! $screen || 'experience' !== $screen->post_type ) {
+		return;
+	}
+
+	wp_enqueue_style(
+		'amalfitana-tour-detail-content-editor',
+		get_template_directory_uri() . '/assets/css/tour-detail-content.css',
+		array( 'amalfitana-google-fonts' ),
+		wp_get_theme()->get( 'Version' )
+	);
+}
+add_action( 'enqueue_block_editor_assets', 'amalfitana_enqueue_experience_editor_styles', 20 );
+
+/**
  * Enqueue theme scripts.
  */
 function amalfitana_enqueue_theme_scripts() {
@@ -413,7 +600,7 @@ function amalfitana_enqueue_theme_scripts() {
 		true
 	);
 
-	if ( is_page_template( 'page-tour-detail' ) ) {
+	if ( is_page_template( 'page-tour-detail' ) || is_singular( 'experience' ) ) {
 		wp_enqueue_script(
 			'amalfitana-tour-checkout',
 			get_template_directory_uri() . '/assets/js/tour-checkout.js',
