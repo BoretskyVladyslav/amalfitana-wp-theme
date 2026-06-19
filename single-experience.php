@@ -228,7 +228,7 @@ if ( ! $hero_image ) {
 
 						<p class="tour-checkout-card__desc">І якраз у подорожі — це те, де все відчувається легко</p>
 
-						<form class="tour-checkout-form subscribe-section__form" action="#" method="post" novalidate aria-labelledby="tour-checkout-title">
+						<form class="tour-checkout-form subscribe-section__form" action="#" method="post" novalidate aria-labelledby="tour-checkout-title" data-tour-id="<?php echo esc_attr($post->ID); ?>">
 							<div class="tour-checkout-form__fields">
 								<div class="tour-checkout-form__field subscribe-section__field">
 									<label class="screen-reader-text" for="tour-checkout-name">Ваше ім'я</label>
@@ -278,6 +278,31 @@ if ( ! $hero_image ) {
 								</div>
 
 								<div class="tour-checkout-form__field subscribe-section__field">
+									<label class="screen-reader-text" for="tour-checkout-guests">Кількість гостей</label>
+									<div class="tour-checkout-form__control">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+											<mask id="mask0_guests" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+											  <rect width="24" height="24" fill="#D9D9D9"/>
+											</mask>
+											<g mask="url(#mask0_guests)">
+											  <path d="M1.5 17.1538V15.0865C1.5 14.5544 1.64267 14.0706 1.928 13.6353C2.21317 13.1999 2.59233 12.8724 3.0655 12.6528C4.09683 12.1862 5.11725 11.8397 6.12675 11.6135C7.13608 11.3872 8.15617 11.274 9.187 11.274C10.2178 11.274 11.2379 11.3872 12.2472 11.6135C13.2568 11.8397 14.2772 12.1862 15.3085 12.6528C15.7817 12.8724 16.1608 13.1999 16.446 13.6353C16.7313 14.0706 16.874 14.5544 16.874 15.0865V17.1538H1.5ZM18.374 17.1538V14.8845C18.374 14.2025 18.1787 13.5542 17.788 12.9395C17.3975 12.3249 16.8493 11.7968 16.1435 11.3553C16.9505 11.4644 17.7073 11.6369 18.414 11.8728C19.1207 12.1087 19.773 12.3942 20.371 12.7293C20.9252 13.0464 21.3622 13.4115 21.682 13.8248C22.0018 14.238 22.1618 14.6718 22.1618 15.1263V17.1538H18.374ZM9.187 9.99975C8.22883 9.99975 7.40625 9.65833 6.71925 8.9755C6.03242 8.29267 5.689 7.47275 5.689 6.51575C5.689 5.55858 6.03042 4.7345 6.71325 4.0435C7.39608 3.3525 8.21617 3.007 9.1735 3.007C10.131 3.007 10.9538 3.34842 11.6418 4.03125C12.3298 4.71408 12.6738 5.534 12.6738 6.4915C12.6738 7.44883 12.3323 8.27133 11.6495 8.959C10.9668 9.64683 10.1468 9.99975 9.187 9.99975ZM18.5555 6.51575C18.5555 7.47275 18.2133 8.29267 17.529 8.9755C16.8447 9.65833 16.0233 9.99975 15.065 9.99975C14.9663 9.99975 14.8423 9.98925 14.693 9.96825C14.5437 9.94725 14.4197 9.92258 14.321 9.89425C14.6795 9.46242 14.9575 8.98158 15.155 8.45175C15.3525 7.92208 15.4512 7.36225 15.4512 6.77225C15.4512 6.13358 15.3428 5.53975 15.126 4.99075C14.909 4.44175 14.6408 3.96258 14.321 3.55325C14.4453 3.50208 14.5693 3.46817 14.6933 3.4515C14.8173 3.43483 14.9413 3.4265 15.065 3.4265C16.0233 3.4265 16.8447 3.76867 17.529 4.453C18.2133 5.1375 18.5555 5.95858 18.5555 6.51575Z" fill="#C3C3C3"/>
+											</g>
+										  </svg>
+										<input
+											type="number"
+											class="subscribe-section__input tour-checkout-form__input"
+											id="tour-checkout-guests"
+											name="guests"
+											placeholder="Кількість гостей"
+											min="1"
+											max="20"
+											value="1"
+											required
+										>
+									</div>
+								</div>
+
+								<div class="tour-checkout-form__field subscribe-section__field">
 									<label class="screen-reader-text" for="tour-checkout-date">Дата</label>
 									<div class="tour-checkout-form__control">
 										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -303,7 +328,7 @@ if ( ! $hero_image ) {
 							<div class="subscribe-section__message tour-checkout-form__message" role="status" aria-live="polite"></div>
 
 							<button type="submit" class="btn btn--primary tour-checkout-form__submit" id="tour-checkout-submit">
-								<span class="subscribe-section__btn-text">Створити мій день</span>
+								<span class="subscribe-section__btn-text">Забронювати досвід</span>
 								<svg class="btn__icon tour-checkout-form__btn-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 15 11.3075" fill="none" aria-hidden="true"><path d="M9.34625 11.3075L8.29225 10.223L12.1115 6.40375H0V4.90375H12.1115L8.29225 1.0845L9.34625 0L15 5.65375L9.34625 11.3075Z" fill="#FFFFFF"/></svg>
 							</button>
 						</form>

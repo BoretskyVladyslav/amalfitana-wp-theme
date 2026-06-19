@@ -313,6 +313,297 @@ function amalfitana_get_media_url_by_filename( $filename, $size = 'full' ) {
 }
 
 /**
+ * Allow SVG uploads for users who can access the media library.
+ *
+ * @param array<string, string> $mimes Allowed upload mime types.
+ * @return array<string, string>
+ */
+function amalfitana_allow_svg_upload_mimes( $mimes ) {
+	if ( current_user_can( 'upload_files' ) ) {
+		$mimes['svg']  = 'image/svg+xml';
+		$mimes['svgz'] = 'image/svg+xml';
+	}
+
+	return $mimes;
+}
+add_filter( 'upload_mimes', 'amalfitana_allow_svg_upload_mimes' );
+
+/**
+ * Fix SVG mime detection for WordPress filetype checks.
+ *
+ * @param array<string, mixed> $data     Filetype data.
+ * @param string               $file     Full path to the file.
+ * @param string               $filename File name.
+ * @param array<string, mixed> $mimes    Allowed mime types.
+ * @return array<string, mixed>
+ */
+function amalfitana_fix_svg_filetype( $data, $file, $filename, $mimes ) {
+	unset( $file, $mimes );
+
+	$extension = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
+
+	if ( in_array( $extension, array( 'svg', 'svgz' ), true ) ) {
+		$data['ext']  = 'svg';
+		$data['type'] = 'image/svg+xml';
+	}
+
+	return $data;
+}
+add_filter( 'wp_check_filetype_and_ext', 'amalfitana_fix_svg_filetype', 10, 4 );
+
+/**
+ * Strip dangerous SVG markup before the file is saved.
+ *
+ * @param string $svg Raw SVG content.
+ * @return string Sanitized SVG markup, or empty string when unsafe.
+ */
+function amalfitana_sanitize_svg_content( $svg ) {
+	$svg = trim( (string) $svg );
+
+	if ( '' === $svg || ! preg_match( '/<svg[\s>]/i', $svg ) ) {
+		return '';
+	}
+
+	// Block XML entities, external DTDs, and embedded PHP.
+	if ( preg_match( '/<!ENTITY|<\?(php|=)|<\?xml-stylesheet/i', $svg ) ) {
+		return '';
+	}
+
+	if ( ! class_exists( 'DOMDocument' ) ) {
+		return '';
+	}
+
+	$previous_setting = libxml_use_internal_errors( true );
+
+	$dom = new DOMDocument();
+	$dom->formatOutput     = false;
+	$dom->preserveWhiteSpace = true;
+
+	$loaded = $dom->loadXML( $svg, LIBXML_NONET | LIBXML_COMPACT );
+
+	libxml_clear_errors();
+	libxml_use_internal_errors( $previous_setting );
+
+	if ( ! $loaded ) {
+		return '';
+	}
+
+	$disallowed_tags = array(
+		'script',
+		'iframe',
+		'object',
+		'embed',
+		'foreignObject',
+		'audio',
+		'video',
+		'canvas',
+		'form',
+		'input',
+		'button',
+		'textarea',
+		'select',
+		'link',
+		'meta',
+		'base',
+	);
+
+	$xpath = new DOMXPath( $dom );
+
+	foreach ( $disallowed_tags as $tag_name ) {
+		$nodes = $dom->getElementsByTagName( $tag_name );
+
+		for ( $index = $nodes->length - 1; $index >= 0; $index-- ) {
+			$node = $nodes->item( $index );
+			if ( $node && $node->parentNode ) {
+				$node->parentNode->removeChild( $node );
+			}
+		}
+	}
+
+	$all_nodes = $xpath->query( '//*' );
+
+	if ( $all_nodes instanceof DOMNodeList ) {
+		foreach ( $all_nodes as $node ) {
+			if ( ! $node instanceof DOMElement ) {
+				continue;
+			}
+
+			if ( $node->hasAttributes() ) {
+				$attributes_to_remove = array();
+
+				foreach ( $node->attributes as $attribute ) {
+					if ( ! $attribute instanceof DOMAttr ) {
+						continue;
+					}
+
+					$name  = strtolower( $attribute->name );
+					$value = trim( $attribute->value );
+
+					if ( 0 === strpos( $name, 'on' ) ) {
+						$attributes_to_remove[] = $attribute->name;
+						continue;
+					}
+
+					if ( in_array( $name, array( 'href', 'xlink:href', 'src', 'data', 'poster', 'formaction' ), true ) ) {
+						if ( preg_match( '/^\s*(javascript:|data:text\/html|vbscript:)/i', $value ) ) {
+							$attributes_to_remove[] = $attribute->name;
+						}
+					}
+				}
+
+				foreach ( $attributes_to_remove as $attribute_name ) {
+					$node->removeAttribute( $attribute_name );
+				}
+			}
+		}
+	}
+
+	$root = $dom->documentElement;
+
+	if ( ! $root instanceof DOMElement || 'svg' !== strtolower( $root->tagName ) ) {
+		return '';
+	}
+
+	return $dom->saveXML( $root );
+}
+
+/**
+ * Sanitize SVG uploads before WordPress moves them into uploads/.
+ *
+ * @param array<string, mixed> $file Uploaded file data.
+ * @return array<string, mixed>
+ */
+function amalfitana_sanitize_svg_upload( $file ) {
+	if ( empty( $file['name'] ) || empty( $file['tmp_name'] ) ) {
+		return $file;
+	}
+
+	$extension = strtolower( pathinfo( (string) $file['name'], PATHINFO_EXTENSION ) );
+
+	if ( ! in_array( $extension, array( 'svg', 'svgz' ), true ) ) {
+		return $file;
+	}
+
+	if ( ! current_user_can( 'upload_files' ) ) {
+		$file['error'] = __( 'You are not allowed to upload SVG files.', 'amalfitana-theme' );
+		return $file;
+	}
+
+	$svg = file_get_contents( $file['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+
+	if ( false === $svg ) {
+		$file['error'] = __( 'Unable to read the SVG file.', 'amalfitana-theme' );
+		return $file;
+	}
+
+	$sanitized = amalfitana_sanitize_svg_content( $svg );
+
+	if ( '' === $sanitized ) {
+		$file['error'] = __( 'This SVG file contains unsupported or unsafe content.', 'amalfitana-theme' );
+		return $file;
+	}
+
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+	if ( false === file_put_contents( $file['tmp_name'], $sanitized ) ) {
+		$file['error'] = __( 'Unable to save the sanitized SVG file.', 'amalfitana-theme' );
+	}
+
+	return $file;
+}
+add_filter( 'wp_handle_upload_prefilter', 'amalfitana_sanitize_svg_upload' );
+
+/**
+ * Ensure SVG attachments preview correctly in the media modal.
+ *
+ * @param array<string, mixed> $response   Attachment JS data.
+ * @param WP_Post              $attachment Attachment post object.
+ * @param array<string, mixed> $meta       Attachment meta.
+ * @return array<string, mixed>
+ */
+function amalfitana_prepare_svg_attachment_for_js( $response, $attachment, $meta ) {
+	unset( $meta );
+
+	if ( empty( $response['mime'] ) || 'image/svg+xml' !== $response['mime'] ) {
+		return $response;
+	}
+
+	if ( empty( $response['sizes'] ) ) {
+		$metadata = isset( $attachment->ID ) ? wp_get_attachment_metadata( $attachment->ID ) : array();
+
+		$response['sizes'] = array(
+			'full' => array(
+				'url'         => $response['url'],
+				'width'       => isset( $metadata['width'] ) ? (int) $metadata['width'] : 0,
+				'height'      => isset( $metadata['height'] ) ? (int) $metadata['height'] : 0,
+				'orientation' => 'portrait',
+			),
+		);
+	}
+
+	$response['icon'] = $response['url'];
+
+	return $response;
+}
+add_filter( 'wp_prepare_attachment_for_js', 'amalfitana_prepare_svg_attachment_for_js', 10, 3 );
+
+/**
+ * Return the forced site favicon URL.
+ *
+ * Overrides the Customizer site icon on the front-end and in wp-admin.
+ *
+ * @return string
+ */
+function amalfitana_get_forced_favicon_url() {
+	return 'https://www.yulianaamalfitana.com/wp-content/uploads/2026/06/favcion.svg';
+}
+
+/**
+ * Force the site icon URL, bypassing the WordPress site icon attachment.
+ *
+ * @param string $url     Site icon URL.
+ * @param int    $size    Requested size.
+ * @param int    $blog_id Site ID.
+ * @return string
+ */
+function amalfitana_force_site_favicon_url( $url, $size, $blog_id ) {
+	unset( $url, $size, $blog_id );
+
+	return amalfitana_get_forced_favicon_url();
+}
+add_filter( 'get_site_icon_url', 'amalfitana_force_site_favicon_url', 99, 3 );
+
+/**
+ * Replace default site icon meta tags with the forced favicon.
+ *
+ * @param string[] $meta_tags Default site icon link tags.
+ * @return string[]
+ */
+function amalfitana_force_site_icon_meta_tags( $meta_tags ) {
+	unset( $meta_tags );
+
+	$url = esc_url( amalfitana_get_forced_favicon_url() );
+
+	return array(
+		sprintf( '<link rel="icon" href="%s" sizes="any" />', $url ),
+		sprintf( '<link rel="shortcut icon" href="%s" />', $url ),
+	);
+}
+add_filter( 'site_icon_meta_tags', 'amalfitana_force_site_icon_meta_tags', 99 );
+
+/**
+ * Ensure favicon tags are printed even when no Customizer site icon is saved.
+ *
+ * @param bool $has_site_icon Whether a site icon is configured.
+ * @return bool
+ */
+function amalfitana_force_has_site_icon( $has_site_icon ) {
+	unset( $has_site_icon );
+
+	return true;
+}
+add_filter( 'has_site_icon', 'amalfitana_force_has_site_icon', 99 );
+
+/**
  * Replace template placeholders in HTML blocks.
  */
 function amalfitana_render_template_placeholders( $block_content, $block ) {
@@ -533,6 +824,15 @@ function amalfitana_enqueue_theme_styles() {
 			true
 		);
 	}
+
+	if ( ! is_admin() && function_exists( 'is_checkout' ) && is_checkout() && ! is_wc_endpoint_url( 'order-pay' ) ) {
+		wp_enqueue_style(
+			'amalfitana-checkout',
+			get_template_directory_uri() . '/assets/css/checkout.css',
+			array( 'amalfitana-google-fonts' ),
+			wp_get_theme()->get( 'Version' )
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'amalfitana_enqueue_theme_styles' );
 add_action( 'enqueue_block_editor_assets', 'amalfitana_enqueue_theme_styles' );
@@ -610,6 +910,37 @@ function amalfitana_enqueue_theme_scripts() {
 		);
 	}
 
+	if ( is_singular( 'experience' ) ) {
+		wp_enqueue_style(
+			'flatpickr',
+			'https://cdn.jsdelivr.net/npm/flatpickr@4/dist/flatpickr.min.css',
+			array(),
+			'4.6.13'
+		);
+
+		wp_enqueue_script(
+			'flatpickr',
+			'https://cdn.jsdelivr.net/npm/flatpickr@4/dist/flatpickr.min.js',
+			array(),
+			'4.6.13',
+			true
+		);
+
+		wp_enqueue_script(
+			'amalfitana-tour-booking',
+			get_template_directory_uri() . '/assets/js/tour-booking.js',
+			array( 'jquery', 'flatpickr' ),
+			wp_get_theme()->get( 'Version' ),
+			true
+		);
+
+		wp_localize_script( 'amalfitana-tour-booking', 'tourBookingData', array(
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'nonce'   => wp_create_nonce( 'tour_booking_nonce' ),
+			'tour_id' => get_the_ID(),
+		) );
+	}
+
 	if ( is_front_page() ) {
 		wp_enqueue_style(
 			'swiper',
@@ -653,3 +984,8 @@ function amalfitana_enqueue_theme_scripts() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'amalfitana_enqueue_theme_scripts' );
+
+/**
+ * Booking logic — WooCommerce cart integration.
+ */
+require_once get_theme_file_path( '/inc/booking-logic.php' );

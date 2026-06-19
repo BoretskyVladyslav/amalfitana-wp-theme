@@ -1411,6 +1411,10 @@ function initCustomSlider(trackSelector, prevBtnSelector, nextBtnSelector, dotsC
       return;
     }
 
+    if (event.target.closest('a, button, input, textarea, select, label, [role="button"]')) {
+      return;
+    }
+
     event.preventDefault();
     isDragging = true;
     dragStartX = event.clientX;

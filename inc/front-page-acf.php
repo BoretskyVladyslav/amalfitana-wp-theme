@@ -169,6 +169,7 @@ function amalfitana_is_front_page_render_context( $block = null ) {
 
 	return is_home() && ! is_paged();
 }
+}
 
 /**
  * Normalize ACF image/file values into a URL string.
@@ -1118,6 +1119,8 @@ function amalfitana_apply_front_page_acf_replacements( $html, $block = null ) {
 	}
 
 	if ( ! amalfitana_should_apply_front_page_acf_replacements( $html, $block ) ) {
+		return $html;
+	}
 		return $html;
 	}
 

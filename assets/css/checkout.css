@@ -1,0 +1,502 @@
+/* =================================================================
+   Amalfitana — Premium Checkout
+   ================================================================= */
+
+/* ---------------------------------------------------------------
+   0. Reset
+   --------------------------------------------------------------- */
+.woocommerce-checkout h3,
+.woocommerce-checkout h2 {
+    color: #1a1a1a !important;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+/* ---------------------------------------------------------------
+   1. FORCE THE GRID LAYOUT (Desktop)
+   --------------------------------------------------------------- */
+form.woocommerce-checkout {
+    display: grid !important;
+    grid-template-columns: 60% 35%;
+    gap: 0 5%;
+    align-items: start;
+    max-width: 1440px;
+    width: 95%;
+    margin: 40px auto;
+    min-height: 80vh;
+    align-content: center;
+}
+
+#customer_details {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Fix squashed Native WooCommerce columns */
+.woocommerce-checkout #customer_details .col-1,
+.woocommerce-checkout #customer_details .col-2 {
+    width: 100% !important;
+    max-width: 100% !important;
+    float: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#order_review_heading {
+    grid-column: 2;
+    grid-row: 1;
+    background: none !important;
+    padding: 0;
+    margin-bottom: 10px;
+    border: none;
+    font-size: 22px;
+}
+
+#order_review {
+    grid-column: 2;
+    grid-row: 2;
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 40px;
+}
+
+/* ---------------------------------------------------------------
+   2. CLEAN UP FORM COLUMNS (FIRST/LAST NAME)
+   --------------------------------------------------------------- */
+.woocommerce-billing-fields__field-wrapper,
+.woocommerce-shipping-fields__field-wrapper,
+.woocommerce-additional-fields__field-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+}
+
+.woocommerce-checkout .form-row {
+    margin-bottom: 0 !important; /* Use flex gap instead */
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.woocommerce-checkout .form-row-first,
+.woocommerce-checkout .form-row-last {
+    width: calc(50% - 6px) !important;
+    float: none !important;
+    clear: none !important;
+}
+
+.woocommerce-checkout .form-row-wide {
+    width: 100% !important;
+    float: none !important;
+    clear: both !important;
+}
+
+/* ---------------------------------------------------------------
+   3. Labels
+   --------------------------------------------------------------- */
+.woocommerce form .form-row label {
+    color: #4a5568 !important;
+    font-weight: 500;
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+    font-family: 'Inter', sans-serif;
+}
+
+.woocommerce form .form-row label .optional {
+    font-weight: 400;
+    color: #9ca3af;
+    font-size: 13px;
+}
+
+.woocommerce form .form-row label .required {
+    color: #e87f24;
+}
+
+/* ---------------------------------------------------------------
+   4. Inputs & textareas
+   --------------------------------------------------------------- */
+.woocommerce-checkout input.input-text,
+.woocommerce-checkout .woocommerce-input-wrapper input,
+.woocommerce-checkout .woocommerce-input-wrapper select {
+    display: block;
+    width: 100% !important;
+    padding: 10px 14px;
+    border: 1px solid #dfe3e8;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    color: #1a1a1a;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* FIX THE SQUASHED TEXTAREA */
+.woocommerce-checkout textarea.input-text {
+    width: 100% !important;
+    min-height: 80px;
+    padding: 10px 14px;
+    resize: vertical;
+    border: 1px solid #dfe3e8;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    color: #1a1a1a;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.woocommerce-checkout input.input-text:focus,
+.woocommerce-checkout textarea.input-text:focus,
+.woocommerce-checkout .woocommerce-input-wrapper select:focus {
+    outline: none;
+    border-color: #e87f24;
+    box-shadow: 0 0 0 3px rgba(232, 127, 36, 0.10);
+}
+
+.woocommerce-checkout input::placeholder,
+.woocommerce-checkout textarea::placeholder {
+    color: #a0aab4;
+}
+
+/* ---------------------------------------------------------------
+   5. SOFTEN VALIDATION STYLES
+   --------------------------------------------------------------- */
+.woocommerce form .form-row.woocommerce-invalid input.input-text,
+.woocommerce form .form-row.woocommerce-invalid select {
+    border-color: #e53e3e !important;
+    box-shadow: 0 0 0 1px #e53e3e !important;
+}
+
+.woocommerce form .form-row.woocommerce-validated input.input-text,
+.woocommerce form .form-row.woocommerce-validated select {
+    border-color: #22c55e !important;
+}
+
+/* ---------------------------------------------------------------
+   6. Order review table
+   --------------------------------------------------------------- */
+.woocommerce-checkout-review-order-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.woocommerce-checkout-review-order-table th,
+.woocommerce-checkout-review-order-table td {
+    padding: 10px 4px;
+    border: none;
+    border-bottom: 1px solid #e8ecef;
+    color: #374151;
+    text-align: left;
+    vertical-align: top;
+    font-weight: 400;
+}
+
+.woocommerce-checkout-review-order-table thead th {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #8896a5;
+    padding-bottom: 10px;
+}
+
+.woocommerce-checkout-review-order-table .product-name {
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.woocommerce-checkout-review-order-table .product-name dl {
+    margin: 6px 0 0;
+    padding: 0;
+}
+
+.woocommerce-checkout-review-order-table .product-name dt,
+.woocommerce-checkout-review-order-table .product-name dd {
+    display: inline;
+    font-size: 13px;
+    font-weight: 400;
+    color: #6b7280;
+    margin: 0;
+}
+
+.woocommerce-checkout-review-order-table .product-name dt::after {
+    content: ': ';
+}
+
+.woocommerce-checkout-review-order-table .product-name dd::after {
+    content: '\A';
+    white-space: pre;
+}
+
+.woocommerce-checkout-review-order-table .product-name dd:last-child::after {
+    content: none;
+}
+
+.woocommerce-checkout-review-order-table tfoot th {
+    font-weight: 500;
+    color: #4b5563;
+}
+
+.woocommerce-checkout-review-order-table tfoot .order-total th,
+.woocommerce-checkout-review-order-table tfoot .order-total td {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+    border-bottom: none;
+    padding-top: 12px;
+}
+
+.woocommerce-checkout-review-order-table tfoot .order-total td .woocommerce-Price-amount {
+    color: #e87f24;
+}
+
+/* ---------------------------------------------------------------
+   7. Payment methods
+   --------------------------------------------------------------- */
+.woocommerce-checkout #payment {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+.woocommerce-checkout #payment ul.payment_methods {
+    padding: 0 !important;
+    margin: 8px 0 12px !important;
+    border: none !important;
+    list-style: none;
+}
+
+.woocommerce-checkout #payment ul.payment_methods li {
+    margin: 0;
+    padding: 8px 0;
+    border-bottom: 1px solid #e8ecef;
+}
+
+.woocommerce-checkout #payment ul.payment_methods li:last-child {
+    border-bottom: none;
+}
+
+.woocommerce-checkout #payment ul.payment_methods li label {
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.woocommerce-checkout #payment .payment_box {
+    background: #eef1f4 !important;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 8px 0 0;
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1.45;
+}
+
+.woocommerce-checkout #payment .payment_box::before {
+    display: none !important;
+}
+
+/* ---------------------------------------------------------------
+   8. Place Order button
+   --------------------------------------------------------------- */
+#place_order {
+    display: block;
+    width: 100%;
+    padding: 14px 24px;
+    margin-top: 4px;
+    background-color: #e87f24;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.25s ease, transform 0.12s ease, box-shadow 0.25s ease;
+}
+
+#place_order:hover {
+    background-color: #cf6d17;
+    box-shadow: 0 4px 14px rgba(232, 127, 36, 0.30);
+}
+
+#place_order:active {
+    transform: scale(0.985);
+    box-shadow: 0 2px 6px rgba(232, 127, 36, 0.20);
+}
+
+/* ---------------------------------------------------------------
+   9. Notices / info boxes
+   --------------------------------------------------------------- */
+.woocommerce-checkout .woocommerce-error,
+.woocommerce-checkout .woocommerce-message,
+.woocommerce-checkout .woocommerce-info {
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.woocommerce-checkout .woocommerce-error {
+    border-left: 4px solid #ef4444;
+}
+
+.woocommerce-checkout .woocommerce-info {
+    border-left: 4px solid #e87f24;
+}
+
+/* ---------------------------------------------------------------
+   10. MOBILE RESPONSIVENESS
+   --------------------------------------------------------------- */
+@media (max-width: 768px) {
+    form.woocommerce-checkout {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 20px 16px;
+        min-height: auto;
+    }
+
+    #order_review {
+        position: static;
+        margin-top: 16px;
+        padding: 16px;
+    }
+
+    .woocommerce-checkout .form-row-first, 
+    .woocommerce-checkout .form-row-last {
+        width: 100% !important;
+    }
+
+    #place_order {
+        padding: 14px 20px;
+        font-size: 15px;
+    }
+}
+
+/* ---------------------------------------------------------------
+   11. THANK YOU PAGE (Order Received Block)
+   --------------------------------------------------------------- */
+/* Main Container / Card */
+.wp-block-woocommerce-order-confirmation,
+main#wp--skip-link--target > .wp-block-woocommerce-order-confirmation {
+    max-width: 800px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+}
+
+/* Status Header */
+.wc-block-order-confirmation-status {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.wc-block-order-confirmation-status h1,
+.wc-block-order-confirmation-status h2,
+.wc-block-order-confirmation-status .wc-block-order-confirmation-status__heading {
+    font-size: 28px !important;
+    font-weight: 600;
+    color: #e87f24;
+    margin-bottom: 12px;
+}
+
+.wc-block-order-confirmation-status p {
+    font-size: 16px;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* Order Summary */
+.wc-block-order-confirmation-summary {
+    background-color: #f9fafa;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 40px;
+}
+
+.wc-block-order-confirmation-summary-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    justify-content: space-between;
+}
+
+.wc-block-order-confirmation-summary-list-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.wc-block-order-confirmation-summary-list-item__value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+/* Order Details Table */
+.wc-block-order-confirmation-totals__table {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+}
+
+.wc-block-order-confirmation-totals__table th,
+.wc-block-order-confirmation-totals__table td {
+    padding: 16px 8px;
+    border: none;
+    border-bottom: 1px solid #e8ecef;
+    text-align: left;
+    color: #374151;
+}
+
+.wc-block-order-confirmation-totals__table tr:last-child th,
+.wc-block-order-confirmation-totals__table tr:last-child td {
+    border-bottom: none;
+}
+
+.wc-block-order-confirmation-totals__table tfoot th,
+.wc-block-order-confirmation-totals__table tfoot td {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .wp-block-woocommerce-order-confirmation,
+    main#wp--skip-link--target > .wp-block-woocommerce-order-confirmation {
+        margin: 30px 16px;
+        padding: 24px;
+    }
+
+    .wc-block-order-confirmation-summary-list {
+        flex-direction: column;
+        gap: 16px;
+    }
+}

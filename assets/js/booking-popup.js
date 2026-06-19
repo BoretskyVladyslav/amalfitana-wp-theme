@@ -140,7 +140,7 @@
 			button.classList.add('is-loading');
 			button.classList.remove('is-success');
 			form.classList.remove('is-success');
-			buttonText.textContent = 'Обробка...';
+			buttonText.textContent = 'Зачекайте...';
 
 			if (buttonIcon) {
 				buttonIcon.style.display = 'none';
@@ -222,40 +222,58 @@
 		});
 
 		inputs.forEach(function (input) {
-			input.addEventListener('input', function () {
-				clearValidationState();
-				clearMessage();
-			});
+			var handleClear = function () {
+				var control = getControl(input);
+				input.classList.remove('is-invalid');
+				if (control) {
+					control.classList.remove('is-invalid');
+				}
+
+				// If ALL fields are now valid, clear the error message
+				var allValid = inputs.every(function (field) {
+					var val = field.value.trim();
+					return val && (field.type !== 'number' || Number(val) >= 1);
+				});
+
+				if (allValid) {
+					clearMessage();
+				}
+			};
+
+			input.addEventListener('input', handleClear);
+			input.addEventListener('change', handleClear);
 		});
 
 		form.addEventListener('submit', function (event) {
 			event.preventDefault();
 
-			var nameValue = nameInput.value.trim();
-			var peopleValue = peopleInput.value.trim();
-			var ageValue = ageInput.value.trim();
-			var dateValue = dateInput.value;
+			var hasError = false;
 
-			if (!nameValue) {
-				showError(MESSAGES.nameEmpty, nameInput);
+			inputs.forEach(function (input) {
+				var val = input.value.trim();
+				var control = getControl(input);
+
+				if (!val || (input.type === 'number' && Number(val) < 1)) {
+					hasError = true;
+					input.classList.add('is-invalid');
+					if (control) {
+						control.classList.add('is-invalid');
+					}
+				} else {
+					input.classList.remove('is-invalid');
+					if (control) {
+						control.classList.remove('is-invalid');
+					}
+				}
+			});
+
+			if (hasError) {
+				setMessage('Будь ласка, заповніть усі обов\'язкові поля.', 'is-error');
 				return;
 			}
 
-			if (!peopleValue || Number(peopleValue) < 1) {
-				showError(MESSAGES.peopleEmpty, peopleInput);
-				return;
-			}
-
-			if (!ageValue) {
-				showError(MESSAGES.ageEmpty, ageInput);
-				return;
-			}
-
-			if (!dateValue) {
-				showError(MESSAGES.dateEmpty, dateInput);
-				return;
-			}
-
+			clearMessage();
+			clearValidationState();
 			clearTimers();
 			showLoadingState();
 
