@@ -956,6 +956,14 @@ function amalfitana_enqueue_theme_scripts() {
 			'11.2.10',
 			true
 		);
+
+		wp_enqueue_script(
+			'amalfitana-front-page-sliders',
+			get_template_directory_uri() . '/assets/js/front-page-sliders.js',
+			array( 'swiper' ),
+			wp_get_theme()->get( 'Version' ),
+			true
+		);
 	}
 
 	if ( is_page( 'about' ) ) {
