@@ -5,12 +5,7 @@
 	var SUCCESS_RESET_DELAY = 3000;
 	var CLOSE_ANIMATION_MS = 350;
 
-	var MESSAGES = {
-		nameEmpty: "Будь ласка, введіть ваше ім'я.",
-		peopleEmpty: 'Будь ласка, вкажіть кількість людей.',
-		ageEmpty: 'Будь ласка, вкажіть вік учасників.',
-		dateEmpty: 'Будь ласка, оберіть дату.'
-	};
+
 
 	function initBookingPopup() {
 		var popup = document.getElementById('booking-popup');
@@ -112,27 +107,7 @@
 			resetSuccessPanel();
 		}
 
-		function showError(text, input) {
-			clearTimers();
-			clearValidationState();
-			resetSuccessPanel();
 
-			inputs.forEach(function (field) {
-				var control = getControl(field);
-				var isTarget = field === input;
-
-				field.classList.toggle('is-invalid', isTarget);
-				field.classList.remove('is-success');
-
-				if (control) {
-					control.classList.toggle('is-invalid', isTarget);
-					control.classList.remove('is-success');
-				}
-			});
-
-			setMessage(text, 'is-error');
-			resetButtonState();
-		}
 
 		function showLoadingState() {
 			resetSuccessPanel();

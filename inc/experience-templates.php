@@ -120,7 +120,7 @@ function amalfitana_get_tour_card_stars_markup( $suffix = '' ) {
  */
 function amalfitana_format_tour_card_price_markup( $post_id ) {
 	$post_id   = (int) $post_id;
-	$raw_price = function_exists( 'get_field' ) ? get_field( 'experience_price', $post_id ) : amalfitana_get_experience_field( $post_id, 'experience_price' );
+	$raw_price = amalfitana_get_experience_field( $post_id, 'experience_price' );
 	$raw_price = trim( (string) $raw_price );
 
 	if ( '' === $raw_price ) {

@@ -1,4 +1,4 @@
-﻿<!-- wp:template-part {"slug":"header","area":"header","tagName":"header"} /-->
+<!-- wp:template-part {"slug":"header","area":"header","tagName":"header"} /-->
 
 <!-- wp:html -->
 <style>
@@ -22,7 +22,10 @@
 
 	.wp-site-blocks > *,
 	.wp-site-blocks > :first-child {
+		margin-top: 0 !important;
+		margin-bottom: 0 !important;
 		margin-block-start: 0 !important;
+		margin-block-end: 0 !important;
 	}
 
 	/* Header overlays the hero — remove it from document flow. */
@@ -44,7 +47,7 @@
 		align-items: center;
 		justify-content: center;
 		min-height: 100vh;
-		min-height: 100dvh;
+		min-height: 100svh;
 		margin-top: 0 !important;
 		margin-block-start: 0 !important;
 		background-color: #1a1a1a;

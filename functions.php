@@ -293,7 +293,7 @@ function amalfitana_get_media_url_by_filename( $filename, $size = 'full' ) {
 
 	if ( $attachment_id ) {
 		$attachment_id = (int) $attachment_id;
-		$src           = wp_get_attachment_image_src( $attachment_id, 'full' );
+		$src           = wp_get_attachment_image_src( $attachment_id, $size );
 
 		if ( ! empty( $src[0] ) ) {
 			$url = $src[0];
@@ -941,7 +941,7 @@ function amalfitana_enqueue_theme_scripts() {
 		) );
 	}
 
-	if ( is_front_page() ) {
+	if ( is_front_page() || is_page( 'about' ) ) {
 		wp_enqueue_style(
 			'swiper',
 			'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css',
@@ -956,7 +956,9 @@ function amalfitana_enqueue_theme_scripts() {
 			'11.2.10',
 			true
 		);
+	}
 
+	if ( is_front_page() ) {
 		wp_enqueue_script(
 			'amalfitana-front-page-sliders',
 			get_template_directory_uri() . '/assets/js/front-page-sliders.js',
@@ -967,21 +969,6 @@ function amalfitana_enqueue_theme_scripts() {
 	}
 
 	if ( is_page( 'about' ) ) {
-		wp_enqueue_style(
-			'swiper',
-			'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css',
-			array(),
-			'11.2.10'
-		);
-
-		wp_enqueue_script(
-			'swiper',
-			'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js',
-			array(),
-			'11.2.10',
-			true
-		);
-
 		wp_enqueue_script(
 			'amalfitana-about-testimonials',
 			get_template_directory_uri() . '/assets/js/about-testimonials.js',

@@ -27,18 +27,14 @@
 		});
 	}
 
-	function init() {
-		initEmailLowercase();
-	}
-
 	window.amalfitanaForms = {
 		sanitizeEmailValue: sanitizeEmailValue,
 		normalizeEmailInput: normalizeEmailInput
 	};
 
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', init);
+		document.addEventListener('DOMContentLoaded', initEmailLowercase);
 	} else {
-		init();
+		initEmailLowercase();
 	}
 }());

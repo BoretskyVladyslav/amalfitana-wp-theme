@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function () {
 	var swiperEl = document.querySelector('.about-testimonials__swiper');
 
 	if (!swiperEl || typeof Swiper === 'undefined') {
-		console.error('Swiper is not loaded or missing!');
 		return;
 	}
 

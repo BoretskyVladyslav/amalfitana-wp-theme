@@ -5,7 +5,6 @@
 		var dateInput = document.getElementById('tour-checkout-date');
 		var form = document.querySelector('.tour-checkout-form');
 
-		// Initialize Flatpickr on the date field
 		if (dateInput && typeof flatpickr !== 'undefined') {
 			flatpickr(dateInput, {
 				minDate: 'today',
@@ -14,7 +13,6 @@
 			});
 		}
 
-		// Handle form submission
 		if (form) {
 			form.addEventListener('submit', function (e) {
 				e.preventDefault();
@@ -28,7 +26,6 @@
 				var nameInput = form.querySelector('#tour-checkout-name');
 				var emailInput = form.querySelector('#tour-checkout-email');
 
-				// Disable button and show loading text
 				if (submitBtn) {
 					submitBtn.disabled = true;
 				}
@@ -62,7 +59,6 @@
 						var msg = (data.data && data.data.message) ? data.data.message : 'Виникла помилка. Спробуйте ще раз.';
 						alert(msg);
 
-						// Re-enable button
 						if (submitBtn) {
 							submitBtn.disabled = false;
 						}

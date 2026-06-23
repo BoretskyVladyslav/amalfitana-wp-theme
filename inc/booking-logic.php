@@ -64,6 +64,8 @@ add_action( 'wp_ajax_nopriv_amalfitana_book_tour', 'amalfitana_book_tour_handler
  * -------------------------------------------------------------- */
 
 function amalfitana_add_cart_item_data( $cart_item_data, $product_id, $variation_id ) {
+	unset( $product_id, $variation_id );
+
 	if ( isset( $_POST['booking_tour_id'] ) ) {
 		$cart_item_data['booking_tour_id'] = absint( $_POST['booking_tour_id'] );
 	}
@@ -145,6 +147,8 @@ add_filter( 'woocommerce_get_item_data', 'amalfitana_display_cart_item_data', 10
  * -------------------------------------------------------------- */
 
 function amalfitana_save_order_item_meta( $item, $cart_item_key, $values, $order ) {
+	unset( $cart_item_key, $order );
+
 	if ( ! empty( $values['booking_date'] ) ) {
 		$item->add_meta_data( '_booking_date', sanitize_text_field( $values['booking_date'] ) );
 	}
@@ -195,7 +199,7 @@ function amalfitana_simplify_checkout_fields( $fields ) {
 		$fields['billing']['billing_phone']['required'] = true;
 		$fields['billing']['billing_phone']['label']    = "Телефон";
 	}
-	
+
 	// Localize Order Comments
 	if ( isset( $fields['order']['order_comments'] ) ) {
 		$fields['order']['order_comments']['label']       = "Додаткові побажання";
@@ -260,12 +264,13 @@ add_filter( 'woocommerce_order_item_get_formatted_meta_data', 'amalfitana_format
  * -------------------------------------------------------------- */
 
 function amalfitana_prevent_booking_product_access() {
-	if ( is_singular( 'product' ) && get_the_ID() == amalfitana_get_booking_product_id() ) {
+	if ( is_singular( 'product' ) && get_the_ID() === amalfitana_get_booking_product_id() ) {
 		wp_safe_redirect( home_url() );
 		exit;
 	}
 }
 add_action( 'template_redirect', 'amalfitana_prevent_booking_product_access' );
+
 /* ---------------------------------------------------------------
  * 11. Programmatically override WooCommerce email branding
  * -------------------------------------------------------------- */
